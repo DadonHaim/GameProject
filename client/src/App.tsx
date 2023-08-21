@@ -1,30 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import BasicGrid from "./Components/basic/BasicGrid";
 import ToolsMenu from "./Components/toolsMenu/ToolsMenu";
-
-
+import Div from "./Components/basic/BasicDiv"
 
 
 export default function App(){
-    let isLoading = React.useState("false");
+
+    let [isLoad , setIsLoad] = useState(false);
+    let [isLogin , setIsLogin] = useState(false);
 
     React.useEffect(()=>{
-        if(!isLoading){
-            fetch("http://localhost:5000/api/start").then((data)=>{
-
-                
-            })
-        }
+        fetch
     },[])
 
-
-    let GridRef :any = React.useRef();
     return(
-        <>
-            <BasicGrid ref={GridRef} id="App" position='absolute' top={10} left="10%" rows={20} columns={20} height="90vh" width="80vw" margin="auto" border>
-                <ToolsMenu gfPosition={[[17,1],[21,21]]} /> 
-            </BasicGrid>
-        </>
-    )
+        <BasicGrid  id="App" border width={1000} height={800} margin="15px auto" rows={10} columns={10}>
 
+            
+
+        </BasicGrid>
+    )
 } 
+
+
+
+
+
+
