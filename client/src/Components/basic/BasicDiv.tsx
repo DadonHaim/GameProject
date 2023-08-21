@@ -1,12 +1,17 @@
 import React from "react";
 import GlobalStyle from "../../Globals/GlobalStyle";
 
-const _Div = React.forwardRef<any,any>((props,ref)=>{
+
+const _Div = React.forwardRef<any,any>((props:Props,ref)=>{
+
     return(
-        <div ref={ref} className={props.id} style={GlobalStyle(props)} hidden ={props.hidden}>
+        <div ref={ref} className={props.id} style={GlobalStyle(props)}>
             {props.children}
         </div>
     )
 })
 
-export default _Div
+interface Props extends GlobalProps{}
+
+
+export default React.memo(_Div);

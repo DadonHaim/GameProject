@@ -3,6 +3,7 @@ function createGrid(id ,name , classFor, top){
 
     setTimeout(()=>{
         let For = document.getElementsByClassName(classFor)[0];
+        if(!For) return
     
         grid.id = id
         grid.style.display              = "none"

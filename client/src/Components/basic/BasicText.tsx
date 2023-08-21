@@ -11,4 +11,4 @@ const Text = React.forwardRef<any,any>((props , ref)=>{
 
 
 
-export default Text
+export default React.memo(Text);

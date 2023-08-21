@@ -20,4 +20,4 @@ const Grid = React.forwardRef<any,any>((props , ref)=>{
  
 interface Props extends GlobalProps{}
 
-export default Grid;
+export default React.memo(Grid);

@@ -5,10 +5,11 @@ import GlobalStyle from "../../Globals/GlobalStyle";
 import BasicGrid from "../basic/BasicGrid";
 
 export default function ToolsMenu(props :Props){
-
+    let ref = React.useRef(null);
+    console.log(ref)
     return (
         <>
-            <BasicGrid id="ToolsMenu" rows={1} columns={3} width="100%" bgColor="gray" gfCenterXY {...props}> 
+            <BasicGrid ref={ref} id="ToolsMenu" rows={1} columns={3} width="100%" bgColor="gray" gfCenterXY {...props}> 
                  <SquareMenu gfPosition={[[1,2],[2,2]]} /> 
             </BasicGrid>
 

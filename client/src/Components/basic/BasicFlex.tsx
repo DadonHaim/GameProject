@@ -10,4 +10,4 @@ const Flex = React.forwardRef<any,any>((props , ref)=>{
     )
 })
 
-export default Flex;
+export default React.memo(Flex);
