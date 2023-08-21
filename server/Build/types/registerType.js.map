@@ -1,1 +1,1 @@
-{"version":3,"file":"registerType.js","sourceRoot":"","sources":["../../types/registerType.ts"],"names":[],"mappings":"AAUA,MAAM,CAAC,cAAc,GAAG,UAAS,GAAO;IACpC,OAAO,CACH,GAAG,CAAC,SAAS,IAAI,SAAS;QAC1B,GAAG,CAAC,SAAS,IAAI,SAAS;QAC1B,GAAG,CAAC,MAAM,IAAI,SAAS;QACvB,GAAG,CAAC,UAAU,IAAI,SAAS;QAC3B,GAAG,CAAC,SAAS,IAAI,SAAS;QAC1B,GAAG,CAAC,SAAS,IAAI,SAAS;QAC1B,MAAM,CAAC,IAAI,CAAC,GAAG,CAAC,CAAC,MAAM,IAAI,CAAC,CAC/B,CAAA;AACL,CAAC,CAAA"}
+{"version":3,"file":"registerType.js","sourceRoot":"","sources":["../../types/registerType.ts"],"names":[],"mappings":""}

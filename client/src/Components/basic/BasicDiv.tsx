@@ -2,7 +2,7 @@ import React from "react";
 import GlobalStyle from "../../Globals/GlobalStyle";
 
 
-const _Div = React.forwardRef<any,any>((props:Props,ref)=>{
+const _Div = React.forwardRef<any,Props>((props:Props,ref)=>{
 
     return(
         <div ref={ref} className={props.id} style={GlobalStyle(props)}>

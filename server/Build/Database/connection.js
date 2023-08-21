@@ -1,6 +1,6 @@
 const sql = require("msnodesqlv8");
 module.exports = class Database {
-    constructor(obj) {
+    constructor() {
         this.connection = "server=HAIM\\SQLEXPRESS;Database=ProjectGame;Trusted_Connection=Yes;Driver={SQL Server Native Client 11.0}";
     }
     Query(query) {

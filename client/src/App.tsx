@@ -1,25 +1,30 @@
-import React, { useState } from "react";
-import BasicGrid from "./Components/basic/BasicGrid";
-import ToolsMenu from "./Components/toolsMenu/ToolsMenu";
-import Div from "./Components/basic/BasicDiv"
-
+import React from "react";
+import {Get} from "./functions/http"
+import {useDispatch,useSelector} from "react-redux";
+import startSlice from "./store/startSlice"
+import Game from "./Components/Game/Game";
+import Guest from "./Components/Guest/Guest";
 
 export default function App(){
-
-    let [isLoad , setIsLoad] = useState(false);
-    let [isLogin , setIsLogin] = useState(false);
+ 
+    let [isLoading , setIsLoading] = React.useState<boolean>(false);
+    let  start :any  = useSelector<any>((store) => store.start.states); 
+    let Dispatch = useDispatch();
 
     React.useEffect(()=>{
-        fetch
+        if(!isLoading){
+            Get("/start").then((data:any)=>{
+                Dispatch(startSlice.actions.setState({new:data.states}));
+                setIsLoading(true);
+            })
+        }
     },[])
 
-    return(
-        <BasicGrid  id="App" border width={1000} height={800} margin="15px auto" rows={10} columns={10}>
 
-            
-
-        </BasicGrid>
-    )
+    if(!isLoading) return <> אנא המתן </>;
+    if(start.isLogin) return <Game />
+    else return <Guest />
+    
 } 
 
 

@@ -1,18 +1,27 @@
-const login = require("../types/loginType");
-const RegisterType = require("../types/registerType");
 const Database = require("../Database/connection");
+const { RegisterValid } = require("../validation/registerValidation");
 class User extends Database {
-    constructor(obj) {
-        super(obj);
-        if (IsLoginType(obj))
-            this.login(obj);
-        // if(IsRegisterType(obj))
-        //      this.register(obj);
-        else
-            this.emptyConstructor();
+    constructor() {
+        super();
+        this.isExist = false;
+        this.GetId = () => this.id;
+        this.GetUsername = () => this.username;
+        this.GetEmail = () => this.email;
+        this.GetFirstname = () => this.firstName;
+        this.GetLastName = () => this.lastName;
+        this.GetBirthday = () => this.birthday;
+        this.IsBanned = () => this.banned;
+        this.IsFreeze = () => this.freeze;
+        this.GetRegisterDate = () => this.register_date;
+        this.GetAllAvatars = () => this.avatars;
+        this.IsExist = () => this.isExist;
+        this.SetEmail = (val) => { this.email = val; };
+        this.SetFirstname = (val) => { this.firstName = val; };
+        this.SetLastName = (val) => { this.lastName = val; };
+        this.SetBirthday = (val) => { this.birthday = val; };
     }
-    login(obj) {
-        this.Query(`SELECT * FROM users WHERE username='${obj.$username}' and password='${obj.$password}'`)
+    Login(username, password) {
+        this.Query(`SELECT * FROM users WHERE username='${username}' and password='${password}'`)
             .then(rows => {
             this.id = rows[0].user_id;
             this.username = rows[0].username;
@@ -25,19 +34,35 @@ class User extends Database {
             this.freeze = rows[0].freeze;
             this.token = rows[0].token;
             this.avatars = Avatar.GetAllAvatars(this.id);
+            this.isExist = true;
         })
-            .catch(err => {
-            this.id = null;
-        });
+            .catch(err => { this.id = null; });
+        return this;
     }
-    register(obj) {
+    Register(obj) {
+        let validation = RegisterValid(obj);
+        if (validation.isValid) {
+            this.Query(`Insert Into users (username,email,firstName,lastName,birthday) Values ('${obj.username}','${obj.email}','${obj.firstName}','${obj.lastName}','${obj.birthday}')`)
+                .then();
+        }
+        else {
+        }
+        return this;
     }
-    emptyConstructor() {
+    CreateNewAvatar(obj) {
+        if (this.avatars.length >= new Setting().GetAvatarsPerUser()) {
+            const tempAvatar = new Avatar();
+            const check = tempAvatar.create(obj);
+            if (tempAvatar.IsExist())
+                return new Result({ Messages: LangValid.createAvatarSuccess, Valid: true });
+            else
+                return new Result({ Messages: check.Messages, Valid: false });
+        }
+        else
+            return new Result({ Messages: LangError.TooMuchAvatars, Valid: false });
     }
+    ForgetPassword() { }
+    static GetUsersLength() { }
+    static GetAllUsers() { }
 }
-const user = new User({
-    $username: "Haim",
-    $password: "123123",
-    $rememberMe: false
-});
 //# sourceMappingURL=user.js.map

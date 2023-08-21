@@ -1,0 +1,1 @@
+//# sourceMappingURL=avatarType.js.map

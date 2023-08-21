@@ -32,7 +32,7 @@ function CreateBtn(name , elemGrid , ForElem,top){
     btn.setAttribute("data-count","0")
     btn.style.position = "absolute";
     btn.style.top = top+"px";
-    btn.style.width = 30+"px";
+    // btn.style.width = 30+"px";
     btn.style.height = 30+"px";
     btn.style.zIndex=999;
     btn.innerHTML = name;

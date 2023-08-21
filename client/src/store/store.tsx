@@ -1,33 +1,22 @@
 import { configureStore , createSlice} from "@reduxjs/toolkit";
+import startSlice from "./startSlice";
+import gameSlice from "./gameSlice";
+// import user from "./userSilce";
+// import settings from "./settingsSilce";
 
 
-
-const slice = createSlice({
-  name:"count",
-  initialState : {count:0},
-  reducers:{
-      add1:(state)=>{
-          state.count++;
-      },
-      sub1:(state)=>{
-          state.count--;
-      },
-      add5:(state,actions)=>{
-          state.count += actions.payload.val;
-      }
-  }
-})
 
 const myStore = configureStore({
-  reducer:{
-      slice  : slice.reducer
-  }
+    reducer:{
+        start : startSlice.reducer,
+        game : gameSlice.reducer,
+        // settings
+    },
 })
 
 
 export {
     myStore,
-    slice
 }
 
 

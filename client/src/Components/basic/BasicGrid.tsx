@@ -4,7 +4,7 @@ import GlobalStyle from "../../Globals/GlobalStyle"
 
 
 
-const Grid = React.forwardRef<any,any>((props , ref)=>{
+const Grid = React.forwardRef<any,Props>((props , ref)=>{
 
     const style :React.CSSProperties = {
         display : "grid",
