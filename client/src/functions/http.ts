@@ -1,17 +1,17 @@
-import Global from "../Globals/Global"
+import Global from "../Global" 
 
-export function Get(api: string ,options = {}){
+function Get(api: string ,options = {}){
     return new Promise((resolve , reject)=>{
-        fetch(Global.Url+api ,options)
+        fetch(Global.Global.Url+api ,options)
         .then(response=>response.json())
         .then(data => resolve(data))
         .catch(err => reject(err))
     })
 }
 
-export function Post(api: string ,options = {}){
+function Post(api: string ,options = {}){
     return new Promise((resolve , reject)=>{
-        fetch(Global.Url+api ,{
+        fetch(Global.Global.Url+api ,{
             method:"post",
             ...options
         })
@@ -21,3 +21,4 @@ export function Post(api: string ,options = {}){
    })
 }
 
+export default {Get,Post}

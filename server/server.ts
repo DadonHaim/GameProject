@@ -1,35 +1,20 @@
 
-
 const express = require("express");
-const path = require("path");
-const fs = require("fs");
 const app = express();
-var cors = require('cors')
-app.use(cors())
+const http = require("http");
+const path = require("path");
+const socket = require("socket.io");
+
+app.use(require('cors')())
+
+const server = http.createServer(app)
+
+const io = new socket.Server()
 
 
-
-
-app.use((req,res,next)=>{
-    console.log("fetch")
-    next();
-})
-
-app.get('/start',(req,res)=>{
-    
-    let states={
-        isLogin : true,
-    }
-    res.json({states})
-})
-app.get('/game',(req,res)=>{
-    
-    let states={
-        location : "selectAvatar",
-    }
-    res.json({states})
-})
-
+io.on('connection', (socket) => {
+    console.log('a user connected');
+});
 
 
 app.listen(3001);  

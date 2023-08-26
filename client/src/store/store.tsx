@@ -1,22 +1,16 @@
-import { configureStore , createSlice} from "@reduxjs/toolkit";
+import  {configureStore} from "@reduxjs/toolkit";
 import startSlice from "./startSlice";
 import gameSlice from "./gameSlice";
-// import user from "./userSilce";
-// import settings from "./settingsSilce";
-
 
 
 const myStore = configureStore({
     reducer:{
         start : startSlice.reducer,
-        game : gameSlice.reducer,
-        // settings
+        game  : gameSlice.reducer,
     },
 })
 
 
-export {
-    myStore,
-}
 
 
+export default myStore
