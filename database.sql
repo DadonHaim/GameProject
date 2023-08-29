@@ -1,189 +1,184 @@
+CREATE TABLE users (
+    "id"            INT            NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    "username"      VARCHAR(50)    NOT NULL,
+    "password"      VARCHAR(50)    NOT NULL,
+    "email"         VARCHAR(150)   NOT NULL,
+    "firstName"     VARCHAR(50),
+    "lastName"      VARCHAR(50),
+    "birthday"      VARCHAR(50),
+    "registerDate"  VARCHAR(50)       DEFAULT CURRENT_TIMESTAMP,
+    "forgetPass"    VARCHAR(150),
+    "banned"        TINYINT(1)     DEFAULT 0,
+    "freeze"        TINYINT(1)     DEFAULT 0,
+    "token"         TEXT
+);
 
+CREATE TABLE global_settings (
+    "gameName"          VARCHAR(50),
+    "description"       TEXT           DEFAULT 'no description',
+    "enablePvp"         TINYINT(1)     DEFAULT 0,
+    "avatarsPerUser"    INT            DEFAULT 3,
+    "maxUpgrade"        INT            DEFAULT 4
+);
 
-create table users(
-    user_id        int            NOT NULL   IDENTITY(1,1)     PRIMARY KEY ,
-    username       varchar(50)    NOT NULL,
-    "password"     varchar(50)    NOT NULL,
-    email          varchar(150)   NOT NULL,
-    firstName      varchar(50),
-    lastName       varchar(50),
-    birthday       dateTime ,
-    register_date  dateTime         default GETDATE(),
-    forgetPass     varchar(150),
-    banned         bit              default 0,
-    freeze         bit              default 0,
-    token          text ,
-)
+CREATE TABLE rank_settings (
+    "id"              INT     NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    "startExp"        INT     NOT NULL,
+    "hp"              INT     NOT NULL,
+    "energy"          INT     NOT NULL,
+    "refillEnergy"    INT     NOT NULL
+);
 
-create table user_log(
-    user_ID    int      FOREIGN KEY REFERENCES users(user_id),
-    login_in   dateTime,
-    login_out  dateTime,
+CREATE TABLE categories_items (
+    "id"              INT            NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    "name"            VARCHAR(50)    NOT NULL,
+    "description"     TEXT           DEFAULT 'no description',
+    "freeze"          TINYINT(1)     DEFAULT 0
+);
 
-)
+CREATE TABLE magics (
+    "id"             INT            NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    "name"           VARCHAR(50)    NOT NULL,
+    "description"    TEXT           DEFAULT 'no description',
+    "freeze"         TINYINT(1)     DEFAULT 0
+);
 
+CREATE TABLE maps (
+    "id"             INT            NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    "name"           VARCHAR(50)    NOT NULL,
+    "description"    TEXT           DEFAULT 'no description',
+    "freeze"         TINYINT(1)     DEFAULT 0
+);
 
+CREATE TABLE monsters (
+    "id"             INT             NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    "name"           VARCHAR(50)     NOT NULL,
+    "description"    TEXT            DEFAULT 'no description',
+    "freeze"         TINYINT(1)      DEFAULT 0,
+    "rankPower"      TEXT
+);
 
+CREATE TABLE items (
+    "id"               INT           NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    "name"             VARCHAR(50)   NOT NULL,
+    "description"      TEXT          DEFAULT 'no description',
+    "freeze"           TINYINT(1)    DEFAULT 0,
+    "price"            TEXT,
+    "sale"             TEXT,
+    "upgrade"          TEXT,
+    "categoryItemID"   INT,                                     
+    "magicID"          INT,
+    FOREIGN KEY (categoryItemID) REFERENCES categories_items(id),
+    FOREIGN KEY (magicID)        REFERENCES magics(id)
+);
 
+CREATE TABLE cards (
+    "id"               INT            NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    "name"             VARCHAR(50)    NOT NULL,
+    "description"      TEXT           DEFAULT 'no description',
+    "type"             VARCHAR(50),
+    "price"            TEXT,
+    "move"             TEXT,
+    "attack"           TEXT,
+    "delay"            INT,
+    "upgrade"          TEXT,
+    "freeze"           TINYINT(1)     DEFAULT 0,
+    "magicID"          INT,
+    FOREIGN KEY (magicID) REFERENCES magics(id)
+);
 
+CREATE TABLE labyrinths (
+    "id"              INT            NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    "name"            VARCHAR(50)    NOT NULL,
+    "description"     TEXT           DEFAULT 'no description',
+    "data"            TEXT,
+    "freeze"          TINYINT(1)     DEFAULT 0,
+    "mapID"           INT,
+    FOREIGN KEY (mapID) REFERENCES maps(id)
+);
 
-create table global_settings(
-    game_name           varchar(50),
-    "description"       text    default 'no description',
-    enable_pvp          bit     default 0 ,
-    avatars_per_user    int     default 3,
-    max_upgrade         int     default 4,
-)
+CREATE TABLE missions (
+    "id"              INT            NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    "name"            VARCHAR(50)    NOT NULL,
+    "description"     TEXT           DEFAULT 'no description',
+    "freeze"          TINYINT(1)     DEFAULT 0,
+    "minRank"         INT,
+    "difficulty"      INT,
+    "goal"            VARCHAR(50),
+    "prize"           TEXT,
+    "monsterID"       INT,
+    "labyrinthsID"    INT,
+    FOREIGN KEY (monsterID)    REFERENCES monsters(id),
+    FOREIGN KEY (labyrinthsID) REFERENCES labyrinths(id)
+);
 
-create table rank_settings(
-    rank_id         int     not null    IDENTITY(1,1)   PRIMARY KEY,
-    start_exp       int     not null,
-    hp              int     not null,
-    energy          int     not null,
-    refill_energy   int     not null,
-)
+CREATE TABLE avatars (
+    "id"           INT            NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    "name"         VARCHAR(50)    NOT NULL,
+    "freeze"       TINYINT(1)     DEFAULT 0,
+    "exp"          INT            DEFAULT 0,
+    "silver"       INT            DEFAULT 0,
+    "gold"         INT            DEFAULT 0,
+    "redPowder"    INT            DEFAULT 0,
+    "diamond"      INT            DEFAULT 0,
+    "createdDate"  VARCHAR(50)    DEFAULT CURRENT_TIMESTAMP,
+    "userID"       INT,
+    "missionID"    INT,
+    "magicID"      INT,
+    FOREIGN KEY (userID)    REFERENCES users(id),
+    FOREIGN KEY (missionID) REFERENCES missions(id),
+    FOREIGN KEY (magicID)   REFERENCES magics(id)
+);
 
-create table categories_items(
-    category_id     int            not null    IDENTITY(1,1)   PRIMARY KEY,
-    category_name   varchar(50)    not null,
-    "description"   text           default 'no description',
-    freeze          bit            default 0,
-)
+CREATE TABLE pvp_rooms (
+    "id"                  INT             NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    "name"                VARCHAR(50)     NOT NULL,
+    "status"              VARCHAR(50),
+    "startDate"           VARCHAR(50)     DEFAULT CURRENT_TIMESTAMP,
+    "endDate"             VARCHAR(50)     DEFAULT CURRENT_TIMESTAMP,
+    "avatarOpenLog"       TEXT,
+    "avatarEnterLog"      TEXT,
+    "avatarOpenID"        INT,
+    "avatarEnterID"       INT,
+    "avatarWinID"         INT,
+    FOREIGN KEY (avatarOpenID)  REFERENCES avatars(id),
+    FOREIGN KEY (avatarEnterID) REFERENCES avatars(id),
+    FOREIGN KEY (avatarWinID)   REFERENCES avatars(id)
+);
 
-create table magics(
-    magic_id        int            not null    IDENTITY(1,1)   PRIMARY KEY,
-    magic_name      varchar(50)    not null,
-    "description"   text           default 'no description',
-    freeze          bit            default 0,
-)
+CREATE TABLE avatars_items (
+    "id"            INT            NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    "level"         INT,
+    "active"        TINYINT(1)     DEFAULT 0,
+    "avatarID"      INT,
+    "itemID"        INT,
+    FOREIGN KEY (avatarID) REFERENCES avatars(id),
+    FOREIGN KEY (itemID)   REFERENCES items(id)
+);
 
-create table maps(
-    map_id          int            not null    IDENTITY(1,1)   PRIMARY KEY,
-    map_name        varchar(50)    not null,
-    "description"   text           default 'no description',
-    freeze          bit            default 0,
-)
+CREATE TABLE avatars_cards (
+    "id"        INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    "level"     INT,
+    "avatarID"  INT,
+    "cardID"    INT,
+    FOREIGN KEY (avatarID)  REFERENCES avatars(id),
+    FOREIGN KEY (cardID)    REFERENCES cards(id)
+);
 
-create table monsters(
-    monster_id      int     not null    IDENTITY(1,1)   PRIMARY KEY,
-    monster_name    varchar(50)     not null,
-    "description"   text    default 'no description',
-    freeze          bit     default 0,
-    rank_power      text
-)
+CREATE TABLE avatars_monsters (
+    "id"              INT     NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    "avatarLog"       TEXT,
+    "monsterLog"      TEXT,
+    "avatarID"        INT,
+    "monsterID"       INT,
+    FOREIGN KEY (avatarID)  REFERENCES avatars(id),
+    FOREIGN KEY (monsterID) REFERENCES monsters(id)
+);
 
-create table items(
-    item_id          int           not null    IDENTITY(1,1)   PRIMARY KEY,
-    item_name        varchar(50)   not null,
-    "description"    text          default 'no description',
-    price            text,
-    sale             text,          
-    upgrade          text,
-    freeze           bit           default 0       ,
-    category_item    int           FOREIGN KEY REFERENCES categories_items(category_id) ,
-    magic_ID         int           FOREIGN KEY REFERENCES magics(magic_id)
-)
-
-create table cards(
-    card_id          int            not null    IDENTITY(1,1)   PRIMARY KEY,
-    card_name        varchar(50)    not null,
-    "description"    text           default 'no description',
-    "type"           varchar(50),        -- קלף הגנה , קלף חידוש , קלף התקפה
-    price            text,
-    "move"           text,
-    attack           text,
-    "delay"          int   ,
-    upgrade          text ,
-    freeze           bit            default 0,
-    magic_ID         int            FOREIGN KEY REFERENCES magics(magic_id)
-)
-
-create table labyrinths(
-    labyrinth_id    int            not null    IDENTITY(1,1)   PRIMARY KEY,
-    labyrinth_name  varchar(50)    not null,
-    "description"   text           default 'no description',
-    labyrinth_data  text,
-    freeze          bit            default 0,
-    map_ID          int            FOREIGN KEY REFERENCES maps(map_id)  
-)
-
-create table missions(
-    mission_id       int            not null    IDENTITY(1,1)   PRIMARY KEY   ,
-    missions_name    varchar(50)    not null,
-    "description"    text           default 'no description',
-    min_rank         int   ,
-    difficulty       int   ,
-    goal             varchar(50),
-    prize            text   ,
-    monster_ID       int            FOREIGN KEY REFERENCES monsters(monster_id),
-    labyrinths_ID    int            FOREIGN KEY REFERENCES labyrinths(labyrinth_id)  
-)
-
-create table avatars(
-    avatar_id    int            NOT NULL   IDENTITY(1,1)     PRIMARY KEY,
-    avatar_name  varchar(50)    NOT NULL,
-    exp          int            default 0 ,
-    silver       int            default 0 ,
-    gold         int            default 0 ,
-    redPowdwe    int            default 0 ,
-    dimaond      int            default 0 ,
-    created_date dateTime       default GETDATE(),
-    user_ID      int            FOREIGN KEY REFERENCES users(user_id),
-    mission_ID   int            FOREIGN KEY REFERENCES missions(mission_id),
-    magic_ID     int            FOREIGN KEY REFERENCES magics(magic_id)
-)   
-
-
-
-
-create table pvp_rooms(
-    room_id             int             not null    IDENTITY(1,1) PRIMARY KEY,
-    room_name           varchar(50)     not null,
-    "status"            varchar(50),
-    "start_date"        dateTime        default GETDATE(),
-    "end_date"          dateTime        default GETDATE(),
-    avatar_open_log     text,
-    avatar_enter_log    text,
-    avatar_open         int             FOREIGN KEY REFERENCES avatars(avatar_id),
-    avatar_Enter        int             FOREIGN KEY REFERENCES avatars(avatar_id),
-    avatar_win          int             FOREIGN KEY REFERENCES avatars(avatar_id)
-)   
-
-
-
-create table avatars_items(
-    id      int            not null    IDENTITY(1,1)   PRIMARY KEY,
-    leven   int,
-    active  bit default 0,
-    avatar_ID int  FOREIGN KEY REFERENCES avatars(avatar_id)  ,
-    item_ID  int FOREIGN KEY REFERENCES items(item_id)  ,
-)
-create table avatars_cards(
-    id      int            not null    IDENTITY(1,1)   PRIMARY KEY,
-    leven   int,
-    avatar_ID int FOREIGN KEY REFERENCES avatars(avatar_id)  ,
-    card_ID int FOREIGN KEY REFERENCES cards(card_id)  ,
-
-)
-create table avatars_monsters(
-    id   int            not null    IDENTITY(1,1)   PRIMARY KEY,
-    avatar_log      text ,
-    monster_log     text ,
-    avatar_ID    int   FOREIGN KEY REFERENCES avatars(avatar_id)  ,
-    monster_ID   int  FOREIGN KEY REFERENCES monsters(monster_id)  ,
-
-)
-create table avatars_labyrinths(
-    id   int            not null    IDENTITY(1,1)   PRIMARY KEY,
-    labyrinth_data  text,
-
-    active_mission_ID  int   FOREIGN KEY REFERENCES missions(mission_ID)  ,
-    labyrinth_ID  int FOREIGN KEY REFERENCES labyrinths(labyrinth_id)  ,
-)
-create table monsters_cards(
-    id   int            not null    IDENTITY(1,1)   PRIMARY KEY,
-    monster_ID   int  FOREIGN KEY REFERENCES monsters(monster_id)  ,
-    card_ID    int FOREIGN KEY REFERENCES cards(card_id)  ,
-)
-
-
+CREATE TABLE avatars_labyrinths (
+    "id"                  INT      NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    "labyrinthData"       TEXT,
+    "activeMissionID"     INT,
+    "labyrinthID"         INT,
+    FOREIGN KEY (activeMissionID) REFERENCES missions(id),
+    FOREIGN KEY (labyrinthID)     REFERENCES labyrinths(id)

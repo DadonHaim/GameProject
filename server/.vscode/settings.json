@@ -1,11 +1,19 @@
 {
+    "diffEditor.renderIndicators": true,
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,
         "**/.hg": true,
         "**/CVS": true,
         "**/.DS_Store": true,
-        "**/Thumbs.db": true
+        "**/Thumbs.db": true,
+        "Build/types": true,
+        "package-lock.json": true,
+        "node_modules": true,
     },
-    "hide-files.files": []
+    "hide-files.files": [
+        "Build/types",
+        "package-lock.json",
+        "node_modules"
+    ]
 }
