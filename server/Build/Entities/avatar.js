@@ -24,10 +24,13 @@ class Avatar {
         this.getMagicType = () => this.magicType;
         this.getPage = () => this.page;
         //#endregion
-        //#region Method
-        //#endregion
-        //#region statics
-        //#endregion
+    }
+    //#endregion
+    //#region Method
+    //#endregion
+    //#region statics
+    static GetAvatarsByUserId(id) {
+        return null;
     }
 }
 exports.default = Avatar;

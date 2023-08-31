@@ -5,7 +5,10 @@ export default  class Database{
     public static connection : string = "server=HAIM\\SQLEXPRESS;Database=ProjectGame;Trusted_Connection=Yes;Driver={SQL Server Native Client 11.0}";
 
     public static Query     = (query:string) => new Promise((resolve,reject) => sql.query(Database.connection,query,(err,rows) => err? reject(err):resolve(rows)));
-    public static QuerySync = (query:string) => sync(Database.Query)(query);
+    public static QuerySync = (query:string):ResultSql => {
+        let res = sync(Database.Query)(query)
+        return new ResultSql(res);
+    };
 
     public static Select     = (obj:ISelect) => Database.Query(Database._select(obj));
     public static SelectSync = (obj:ISelect) => Database.QuerySync(Database._select(obj));
@@ -47,3 +50,30 @@ interface IUpdate{
 }
 
 
+class ResultSql{
+    public Data;
+    public valid = true;
+
+    public constructor(data){
+        this.Data=data;
+        if(!Array.isArray(this.Data)) 
+           this.valid = false;
+        else if(!this.Data[0]) 
+            this.valid = false;
+        else if(!this.Data[0].id) 
+            this.valid = false;
+        else
+            this.valid = true;
+    }
+
+    public ValidData(callback:(data:any)=>void):ResultSql{
+        if(this.valid)
+            callback(this.Data);
+        return this;
+    }
+    public NoValidData(callback:(data:any)=>void):ResultSql{
+        if(!this.valid)
+            callback(this.Data);
+        return this;
+    }
+}

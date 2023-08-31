@@ -57,55 +57,54 @@ export default  class User{
     //#endregion
 
     //#region Method
-        public constructor(obj:ILogin | IRegister){
-            if      (obj as ILogin)      this.login(<ILogin>obj)
-            else if (obj as IRegister)   this.register(<IRegister>obj)
+        public constructor(){
+            // if      (obj as ILogin)      this.login(<ILogin>obj)
+            // else if (obj as IRegister)   this.register(<IRegister>obj)
 
-            this.isExist = (this.id && this.username)? true :false ;
-            this.isLogin = (this.id && this.username)? true :false ;
+            // this.isExist = (this.id && this.username)? true :false ;
+            // this.isLogin = (this.id && this.username)? true :false ;
 
-            if(this.isExist){
-                this.avatars = Avatar.GetAvatarsByUserId(this.id);
-            }
+            // if(this.isExist){
+            //     this.avatars = Avatar.GetAvatarsByUserId(this.id);
+            // }
         }
         
         public updateActiveAvatar(id:null):Avatar {return null} 
         public logout(){}
 
-        private login(obj:ILogin):User{
+        public login(obj:ILogin){
             let validation = LoginValidation(obj);
             if(validation.valid){
-                let data = Database.SelectSync({fields:"*",from:"users",where:`username='${obj.username}' and password='${obj.password}'`})
-                this.fillFields(data[0]);
-                
-            }else{
+                Database.SelectSync({fields:"*",from:"users",where:`username='${obj.username}' and password='${obj.password}'`})
+                .ValidData((data)=>{
+                    this.fillFields(data[0]);
+                    this.isExist =  true;
+                    this.isLogin =  true;
+                    this.avatars = Avatar.GetAvatarsByUserId(this.id);
+                })
+                .NoValidData(()=>{
+                    this.isExist = false;
+                    this.isLogin = false;
+                    this.message = validation.messages; 
+                })
+            }       
+        }
+
+        public register(obj:IRegister){ 
+            let validation = RegisterValidation(obj);
+            if(validation.valid){
+                this.isExist = true;
+                this.isLogin = true;
+            }
+            else{
                 this.isExist = false;
                 this.isLogin = false;
                 this.message = validation.messages; 
             }
-            return this;
-        }
-
-        private register(obj:IRegister):User{ 
-            Debug(`User->constructor(IRegister)`)
-
-            return this;
         }
 
 
-        private fillFields(data:UserModel){
-            this.id            = (data && data.id)           ? data.id           :null;
-            this.username      = (data && data.username)     ? data.username     :null;
-            this.email         = (data && data.email)        ? data.email        :null;
-            this.firstName     = (data && data.firstName)    ? data.firstName    :null;
-            this.lastName      = (data && data.lastName)     ? data.lastName     :null;
-            this.birthday      = (data && data.birthday)     ? data.birthday     :null;
-            this.registerDate  = (data && data.registerDate) ? data.registerDate :null;
-            this.banned        = (data && data.banned)       ? data.banned       :null;
-            this.freeze        = (data && data.freeze)       ? data.freeze       :null;
-            this.token         = (data && data.token)        ? data.token        :null;
-        }
-
+        private fillFields = (data:UserModel) => {for(let key in data) this[key]=data[key]};
 
     //#endregion
 

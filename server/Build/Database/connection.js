@@ -23,8 +23,35 @@ class Database {
 }
 Database.connection = "server=HAIM\\SQLEXPRESS;Database=ProjectGame;Trusted_Connection=Yes;Driver={SQL Server Native Client 11.0}";
 Database.Query = (query) => new Promise((resolve, reject) => sql.query(Database.connection, query, (err, rows) => err ? reject(err) : resolve(rows)));
-Database.QuerySync = (query) => sync(Database.Query)(query);
+Database.QuerySync = (query) => {
+    let res = sync(Database.Query)(query);
+    return new ResultSql(res);
+};
 Database.Select = (obj) => Database.Query(Database._select(obj));
 Database.SelectSync = (obj) => Database.QuerySync(Database._select(obj));
 exports.default = Database;
+class ResultSql {
+    constructor(data) {
+        this.valid = true;
+        this.Data = data;
+        if (!Array.isArray(this.Data))
+            this.valid = false;
+        else if (!this.Data[0])
+            this.valid = false;
+        else if (!this.Data[0].id)
+            this.valid = false;
+        else
+            this.valid = true;
+    }
+    ValidData(callback) {
+        if (this.valid)
+            callback(this.Data);
+        return this;
+    }
+    NoValidData(callback) {
+        if (!this.valid)
+            callback(this.Data);
+        return this;
+    }
+}
 //# sourceMappingURL=connection.js.map
