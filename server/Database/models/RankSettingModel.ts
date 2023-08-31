@@ -1,4 +1,4 @@
-class RankSettingModel{
+export default class RankSettingModel{
     public id?              :number;
     public startExp?        :number;
     public hp?              :number;

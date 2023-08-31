@@ -1,4 +1,4 @@
-class Avatar{
+export default class Avatar{
 
     //#region Fields
         private id          :number;    //{get;}
@@ -47,6 +47,9 @@ class Avatar{
     //#endregion
 
     //#region statics
+    public static GetAvatarsByUserId(id:number):Avatar[]{
+        return null;
+    }
 
     //#endregion
 

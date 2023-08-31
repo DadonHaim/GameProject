@@ -1,4 +1,4 @@
-class MissionsModel{
+export default class MissionsModel{
     public id?              :number;
     public name?            :string;
     public description?     :string;

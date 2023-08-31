@@ -1,4 +1,4 @@
-class Setting {
+export default class Setting {
     //#region Fields
 
     //#endregion

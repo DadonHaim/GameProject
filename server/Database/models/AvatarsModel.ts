@@ -1,4 +1,4 @@
-class AvatarsModel{
+export default class AvatarsModel{
     public id?              :number;
     public name?            :string;
     public createdDate?     :string;

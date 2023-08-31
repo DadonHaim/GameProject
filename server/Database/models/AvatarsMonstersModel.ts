@@ -1,4 +1,4 @@
-class AvatarsMonstersModel{
+export default class AvatarsMonstersModel{
     public id?              :number;
     public avatarLog?       :string;
     public monsterLog?      :string;

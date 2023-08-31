@@ -1,4 +1,4 @@
-class ItemsModel{
+export default class ItemsModel{
     public id?               :number;
     public name?             :string;
     public description?      :string;

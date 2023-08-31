@@ -14,13 +14,13 @@
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "msnodesqlv8": "^4.1.0",
-    "sequelize": "^6.32.1",
-    "socket.io": "^4.7.2"
+    "socket.io": "^4.7.2",
+    "synchronized-promise": "^0.3.1"
   },
   "scripts": {
-    "start": "nodemon server.ts",
-    "dev": "nodemon -L -e ts,json --exec \"npm run compile\"",
-    "compile": "tsc && node build/server.js",
-    "check" : "nodemon build/server.js" 
+    "start": "tsc && node build/server.js",
+    "dev": "set Haim=build && tsc && nodemon build/server.js",
+    "compile": "tsc && set Haim=build && node build/server.js",
+    "check": "nodemon build/server.js"
   }
 }

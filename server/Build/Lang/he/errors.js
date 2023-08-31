@@ -1,5 +1,7 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const LangError = {
     TooMuchAvatars: "Too Much Avatars",
 };
-module.exports = LangError;
+exports.default = LangError;
 //# sourceMappingURL=errors.js.map

@@ -1,4 +1,4 @@
-class LabyrinthsModel{
+export default class LabyrinthsModel{
     public id?              :number;
     public name?            :string;
     public description?     :string;

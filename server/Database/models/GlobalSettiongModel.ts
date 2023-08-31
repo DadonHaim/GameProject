@@ -1,4 +1,4 @@
-class GlobalSettiongModel{
+export default class GlobalSettiongModel{
     public  gameName?        :string;
     public  description?     :string;
     public  enablePvp?       :boolean;

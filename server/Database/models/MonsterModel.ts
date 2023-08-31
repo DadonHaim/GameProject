@@ -1,4 +1,4 @@
-class MonsterModel{
+export default class MonsterModel{
     public id?              :number;
     public name?            :string;
     public description?     :string;
