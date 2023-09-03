@@ -3,4 +3,7 @@ class AvatarsLabyrinthsModel{
     public labyrinthData?   :string;
     public activeMissionID? :number;
     public labyrinthID?     :number;
+
+    public static type : "id"|"labyrinthData"|"activeMissionID"|"labyrinthID";
+
 }

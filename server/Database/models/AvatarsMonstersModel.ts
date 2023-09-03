@@ -4,4 +4,7 @@ export default class AvatarsMonstersModel{
     public monsterLog?      :string;
     public avatarID?        :number;
     public itemID?          :number;
+
+    public static type : "id"|"avatarLog"|"monsterLog"|"avatarID"|"itemID";
+
 }

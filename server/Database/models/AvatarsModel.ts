@@ -11,4 +11,7 @@ export default class AvatarsModel{
     public userID?          :number;
     public missionID?       :number;
     public magicID?         :number;
+
+    public static type : "id"|"name"|"createdDate"|"freeze"|"exp"|"silver"|"gold"|"redPowder"|"diamond"|"userID"|"missionID"|"magicID";
+
 }

@@ -1,6 +1,8 @@
 
 export default class Labyrinth{
     public frame : _labyrinth[];
+    constructor(jsonText:string){}
+
  }
  
  

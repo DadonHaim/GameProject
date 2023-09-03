@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class AvatarLog {
+    constructor(jsonText) { }
 }
 exports.default = AvatarLog;
 class _round {

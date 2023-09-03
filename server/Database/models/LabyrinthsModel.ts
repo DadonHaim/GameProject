@@ -5,4 +5,6 @@ export default class LabyrinthsModel{
     public freeze?          :boolean;
     public data?            :string;
     public mapID?           :number;
+
+    public static type : "id"|"name"|"description"|"freeze"|"data"|"mapID";
 }

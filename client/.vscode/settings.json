@@ -9,12 +9,14 @@
         ".gitignore": true,
         "package-lock.json": true,
         "node_modules": true,
-        ".vscode": true
+        ".vscode": true,
+        "‏‏תיקיה חדשה": true
     },
     "hide-files.files": [
         ".gitignore",
         "package-lock.json",
         "node_modules",
-        ".vscode"
+        ".vscode",
+        "‏‏תיקיה חדשה"
     ]
 }

@@ -7,6 +7,8 @@
     import User from './Entities/user';
     import  Game  from './Gloabl';
 import { Login1 } from './sockets/loginSockts';
+import Avatar from './Entities/avatar';
+import Item from './Entities/Item';
     
     //#endregion
  
@@ -35,24 +37,11 @@ app.use((REQ,RES,NEXT)=>{    //יש צורך להשים מתודה זו בהתח
 })
 //#endregion
 
+let user :User = new User();
+user.login({username:"user2",password:"123123"})
+console.log(user.getAvatars()[0].getInventory().GetAllItems())
 
 
-
-
-
-socket.on("connection",(socket:Socket)=>{
-    console.log("connection")
-    global.Game.user = new User();
-    
-
-
-   socket.on("loginMe",(data)=>{Login1(data)})
-
-
-
-
-
-})
 
 
 

@@ -4,4 +4,7 @@ export default class GlobalSettiongModel{
     public  enablePvp?       :boolean;
     public  avatarPerUser?   :number;
     public  maxUpgrade?      :number; 
+
+    public static type : "gameName"|"description"|"enablePvp"|"avatarPerUser"|"maxUpgrade";
+
 }

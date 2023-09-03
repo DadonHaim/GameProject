@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class sale {
+    constructor(jsonText) { }
 }
 exports.default = sale;
 class Moneys {

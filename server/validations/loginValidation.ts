@@ -1,5 +1,9 @@
-export default  function LoginValidation(obj:ILogin){
+import ResultValid from "./ResultValid";
+
+export default  function LoginValidation(obj:ILogin) : ResultValid{
 
 
-    return {valid:true,messages:{}}
+    return new ResultValid([],true);
 } 
+
+

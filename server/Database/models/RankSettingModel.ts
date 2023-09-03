@@ -4,5 +4,8 @@ export default class RankSettingModel{
     public hp?              :number;
     public energy?          :number;
     public energyEnergy?    :number;
+
+    public static type : "id"|"startExp"|"hp"|"energy"|"energyEnergy";
+
 }
 

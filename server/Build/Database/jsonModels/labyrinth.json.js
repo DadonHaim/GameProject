@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Labyrinth {
+    constructor(jsonText) { }
 }
 exports.default = Labyrinth;
 class _labyrinth {

@@ -5,6 +5,8 @@ export default class UpgradeItems{
     public leven4   :_upgradeItems;
     public leven5   :_upgradeItems;
     public leven6   :_upgradeItems;
+    constructor(jsonText:string){}
+
 }
 
 class _upgradeItems{

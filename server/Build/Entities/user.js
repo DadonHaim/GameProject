@@ -3,21 +3,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const connection_1 = __importDefault(require("../Database/connection"));
 const loginValidation_1 = __importDefault(require("../validations/loginValidation"));
 const registerValidation_1 = __importDefault(require("../validations/registerValidation"));
 const avatar_1 = __importDefault(require("./avatar"));
-class User {
+const randomString_1 = __importDefault(require("../functions/randomString"));
+const DB_1 = __importDefault(require("../Database/DB"));
+class User extends DB_1.default {
     //#endregion
     //#region Method
     constructor() {
-        // if      (obj as ILogin)      this.login(<ILogin>obj)
-        // else if (obj as IRegister)   this.register(<IRegister>obj)
+        super({ tableName: "users" });
         //#endregion 
         //#region Flags:
         this.isExist = false; //{get;}         
         this.isLogin = false; //{get;}         
-        this.isSelectedAvatar = false; //{get;}                     
+        this.isSelectedAvatar = false; //{get; set;}                     
         //#endregion
         //#region Gets:
         this.getId = () => this.id;
@@ -34,51 +34,79 @@ class User {
         this.IsLogin = () => this.isLogin;
         this.IsSelectedAvatar = () => this.isSelectedAvatar;
         this.getAvatars = () => this.avatars;
-        this.getActiveAvatar = () => this.activeAvatars;
+        this.getActiveAvatar = () => this.activeAvatar;
         //#endregion
         //#region Sets:
         this.setEmail = (value) => { this.email = value; };
         this.setFirstName = (value) => { this.firstName = value; };
         this.setLastName = (value) => { this.lastName = value; };
         this.setBirthday = (value) => { this.birthday = value; };
+        this.setIsSelectedAvatar = (value) => { this.isSelectedAvatar = value; };
         this.fillFields = (data) => { for (let key in data)
             this[key] = data[key]; };
-        // this.isExist = (this.id && this.username)? true :false ;
-        // this.isLogin = (this.id && this.username)? true :false ;
-        // if(this.isExist){
-        //     this.avatars = Avatar.GetAvatarsByUserId(this.id);
-        // }
     }
-    updateActiveAvatar(id) { return null; }
-    logout() { }
+    logout() {
+        if (!this.isLogin)
+            return;
+        this.removeToken();
+        this.id = null;
+        this.isLogin = false;
+    }
     login(obj) {
-        let validation = (0, loginValidation_1.default)(obj);
-        if (validation.valid) {
-            connection_1.default.SelectSync({ fields: "*", from: "users", where: `username='${obj.username}' and password='${obj.password}'` })
-                .ValidData((data) => {
+        if (this.isLogin)
+            return;
+        (0, loginValidation_1.default)(obj).Valid(() => {
+            this.SelectSync({
+                Fields: ["id", "username", "email", "firstName", "lastName", "registerDate", "birthday", "freeze", "token"],
+                where: `username ='${obj.username}' and password = '${obj.password}'`
+            })
+                .ValidDB((data) => {
                 this.fillFields(data[0]);
                 this.isExist = true;
                 this.isLogin = true;
-                this.avatars = avatar_1.default.GetAvatarsByUserId(this.id);
+                this.createToken();
+                this.avatars = avatar_1.default.GetAvatarsByUserId(this);
             })
-                .NoValidData(() => {
+                .NoValidDB(() => {
                 this.isExist = false;
                 this.isLogin = false;
-                this.message = validation.messages;
             });
-        }
+        }).NoValid((msgs) => this.message = msgs);
     }
     register(obj) {
-        let validation = (0, registerValidation_1.default)(obj);
-        if (validation.valid) {
+        if (this.isLogin)
+            return;
+        (0, registerValidation_1.default)(obj).Valid(() => {
             this.isExist = true;
             this.isLogin = true;
-        }
-        else {
+        }).NoValid(msg => {
             this.isExist = false;
             this.isLogin = false;
-            this.message = validation.messages;
+            this.message = msg;
+        });
+    }
+    createToken() {
+        if (!this.IsLogin())
+            return;
+        let token = (0, randomString_1.default)(40);
+        this.UpdateSync({ token: token });
+        this.token = token;
+    }
+    removeToken() {
+        if (!this.IsExist())
+            return;
+        this.UpdateSync({ token: '', });
+        this.token = null;
+    }
+    UpdateActiveAvatar(avatarRef) {
+        if (avatarRef == null) {
+            this.isSelectedAvatar = false;
+            this.activeAvatar = null;
+            return;
         }
+        this.activeAvatar = this.avatars.find(avatar => avatar.getId() == avatarRef.getId());
+        if (this.activeAvatar)
+            this.isSelectedAvatar = true;
     }
     //#endregion
     //#region Statics:

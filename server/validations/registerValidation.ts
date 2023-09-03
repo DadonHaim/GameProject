@@ -1,4 +1,6 @@
+import ResultValid from "./ResultValid";
+
 export default function RegisterValidation(obj:IRegister){
 
-    return {valid:true,messages:{}}
+    return new ResultValid([],true);
 }

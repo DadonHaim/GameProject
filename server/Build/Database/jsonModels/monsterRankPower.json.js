@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class MonsterRankPower {
+    constructor(jsonText) { }
 }
 exports.default = MonsterRankPower;
 class _monsterRankPower {

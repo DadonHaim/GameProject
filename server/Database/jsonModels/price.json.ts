@@ -3,7 +3,9 @@ export default class Price{
     public silver     :number;          
     public gold       :number;      
     public diamond    :number;          
-    public redPowder  :number;                        
+    public redPowder  :number;                       
+    constructor(jsonText:string){}
+ 
 }
 
 

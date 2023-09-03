@@ -5,6 +5,8 @@ export default class Prize{
     public diamond    :number;          
     public redPowder  :number;              
     public items      :any; // Item[];          
+    constructor(jsonText:string){}
+
 }
 
 

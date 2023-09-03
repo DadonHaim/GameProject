@@ -11,5 +11,7 @@ export default class UserModel{
     public freeze?       : boolean;
     public token?        : string;
     // public forgetPass?   : string; -- חסוי
+
+    public static type : "id"|"username"|"email"|"firstName"|"lastName"|"birthday"|"registerDate"|"freeze"|"token";
 }
 

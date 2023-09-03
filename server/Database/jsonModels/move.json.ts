@@ -3,6 +3,8 @@ export default class Move{
     public down   :number;  
     public left   :number;  
     public right  :number;      
+    constructor(jsonText:string){}
+
 }
 
 // {

@@ -3,4 +3,6 @@ export default class MagicsModel{
     public name?            :string;
     public description?     :string;
     public freeze?          :boolean;
+
+    public static type:"id"|"name"|"description"|"freeze" ;
 }

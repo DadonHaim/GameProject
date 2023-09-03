@@ -4,4 +4,7 @@ export default class MonsterModel{
     public description?     :string;
     public freeze?          :boolean;
     public rankPower?       :number;
+
+    public static type : "id"|"name"|"description"|"freeze"|"rankPower";
+
 }

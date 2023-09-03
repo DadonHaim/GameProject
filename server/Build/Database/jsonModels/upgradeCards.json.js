@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class UpgradeCards {
+    constructor(jsonText) { }
 }
 exports.default = UpgradeCards;
 class _upgradeCards {

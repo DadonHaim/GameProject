@@ -1,1 +1,1 @@
-{"version":3,"file":"prize.json.js","sourceRoot":"","sources":["../../../Database/jsonModels/prize.json.ts"],"names":[],"mappings":";;AAAA,MAAqB,KAAK;CAOzB;AAPD,wBAOC;AAGD,IAAI;AACJ,uBAAuB;AACvB,uBAAuB;AACvB,uBAAuB;AACvB,uBAAuB;AACvB,uBAAuB;AACvB,uBAAuB;AACvB,IAAI"}
+{"version":3,"file":"prize.json.js","sourceRoot":"","sources":["../../../Database/jsonModels/prize.json.ts"],"names":[],"mappings":";;AAAA,MAAqB,KAAK;IAOtB,YAAY,QAAe,IAAE,CAAC;CAEjC;AATD,wBASC;AAGD,IAAI;AACJ,uBAAuB;AACvB,uBAAuB;AACvB,uBAAuB;AACvB,uBAAuB;AACvB,uBAAuB;AACvB,uBAAuB;AACvB,IAAI"}

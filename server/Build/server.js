@@ -8,7 +8,6 @@ const express_1 = __importDefault(require("express"));
 const http_1 = __importDefault(require("http"));
 const io = require("socket.io");
 const user_1 = __importDefault(require("./Entities/user"));
-const loginSockts_1 = require("./sockets/loginSockts");
 //#endregion
 //#region settings - server
 const app = (0, express_1.default)();
@@ -31,11 +30,9 @@ app.use((REQ, RES, NEXT) => {
     NEXT();
 });
 //#endregion
-socket.on("connection", (socket) => {
-    console.log("connection");
-    global.Game.user = new user_1.default();
-    socket.on("loginMe", (data) => { (0, loginSockts_1.Login1)(data); });
-});
+let user = new user_1.default();
+user.login({ username: "user2", password: "123123" });
+console.log(user.getAvatars()[0].getInventory().GetAllItems());
 server.listen(3001, () => {
     console.log("http://121.0.0.1:3001");
 });

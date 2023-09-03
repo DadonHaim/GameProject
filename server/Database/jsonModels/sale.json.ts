@@ -5,6 +5,8 @@ export default class sale{
     public leven4 :Moneys;
     public leven5 :Moneys;
     public leven6 :Moneys;
+
+    constructor(jsonText:string){}
 }
 
 

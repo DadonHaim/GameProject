@@ -9,11 +9,13 @@
         "**/Thumbs.db": true,
         "Build/types": true,
         "package-lock.json": true,
-        "node_modules": true
+        "node_modules": true,
+        "Build": true
     },
     "hide-files.files": [
         "Build/types",
         "package-lock.json",
-        "node_modules"
+        "node_modules",
+        "Build"
     ]
 }

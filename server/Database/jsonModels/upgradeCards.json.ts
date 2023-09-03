@@ -5,6 +5,8 @@ export default class UpgradeCards{
     public leven4   :_upgradeCards;
     public leven5   :_upgradeCards;
     public leven6   :_upgradeCards;
+    constructor(jsonText:string){}
+
 }
 
 

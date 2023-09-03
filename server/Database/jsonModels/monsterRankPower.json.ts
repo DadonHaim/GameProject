@@ -3,6 +3,8 @@ export default class MonsterRankPower{
     public simple       :_monsterRankPower; 
     public general      :_monsterRankPower; 
     public king         :_monsterRankPower; 
+    constructor(jsonText:string){}
+
 }
 
 class _monsterRankPower{

@@ -10,6 +10,9 @@ export default class AvatarLog{
         energy      : number,       
     }
     public round    : _round[];
+    
+    constructor(jsonText:string){}
+
 }
 
 class _round{
