@@ -16,14 +16,6 @@ class DB {
             return connection_1.default.SelectSync({ Fields: obj.Fields, from: obj.from || this.tableName, join: obj.join, on: obj.on, where: obj.where || null });
         return connection_1.default.SelectSync({ Fields: obj.Fields, from: obj.from || this.tableName, where: where });
     }
-    UpdateSync(obj) {
-        // if(this.id != null)
-        return connection_1.default.UpdateSync({
-            newValues: obj,
-            from: this.tableName,
-            where: `id=${this.id}`,
-        });
-    }
 }
 exports.default = DB;
 //# sourceMappingURL=DB.js.map

@@ -67,6 +67,7 @@ CREATE TABLE items (
     color               VARCHAR(10) DEFAULT('none'),
     sale                NVARCHAR(MAX),
     upgrade             NVARCHAR(MAX),
+    minAvatarRank INT DEFAULT 1,
     categoryItem        VARCHAR,                                     
     magicID             INT,
     -- FOREIGN KEY (categoryItemID) REFERENCES categories_items(id),
@@ -82,6 +83,7 @@ CREATE TABLE cards (
     "move" NVARCHAR(MAX),
     attack NVARCHAR(MAX),
     "delay" INT,
+    minAvatarRank INT DEFAULT 1,
     upgrade NVARCHAR(MAX),
     freeze TINYINT DEFAULT 0,
     magicID INT,
@@ -108,6 +110,7 @@ CREATE TABLE missions (
     goal VARCHAR(50),
     prize NVARCHAR(MAX),
     monsterID INT,
+    magicID INT DEFAULT 0,
     labyrinthsID INT,
     FOREIGN KEY (monsterID) REFERENCES monsters(id),
     FOREIGN KEY (labyrinthsID) REFERENCES labyrinths(id)
@@ -221,8 +224,8 @@ Values                      (1,0,1,1),
                             (1,0,1,2),
                             (1,1,2,2),
                             (1,1,3,2),
-                            (1,1,3,2)
-                            (1,1,2,1)
+                            (1,1,3,2),
+                            (1,1,2,1),
                             (1,1,2,1)
 
 

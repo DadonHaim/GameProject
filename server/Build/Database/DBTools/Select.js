@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class DBTools {
+class ISelect {
     constructor(obj) { }
 }
-exports.default = DBTools;
+exports.default = ISelect;
 //# sourceMappingURL=Select.js.map

@@ -1,0 +1,16 @@
+type TAvatars               = "id"|"name"|"createdDate"|"freeze"|"exp"|"silver"|"gold"|"redPowder"|"diamond"|"userID"|"missionID"|"magicID";
+type TUser                  = "id"|"username"|"email"|"firstName"|"lastName"|"birthday"|"registerDate"|"freeze"|"token";
+type TRankSetting           = "id"|"startExp"|"hp"|"energy"|"energyEnergy";
+type TMissions              = "id"|"name"|"description"|"freeze"|"minRank"|"difficulty"|"goal"|"prize"|"monsterID"|"labyrinthsID";
+type TMonster               = "id"|"name"|"description"|"freeze"|"rankPower";
+type TMaps                  = "id"|"name"|"description"|"freeze";
+type TMagics                = "id"|"name"|"description"|"freeze" ;
+type TLabyrinths            = "id"|"name"|"description"|"freeze"|"data"|"mapID";
+type TItems                 = 'id'|'name'|'description'|'freeze'|'price'|'sale'|'color' |'upgrade'|'rank'|'categoryItem' |'magicID' ;     
+type TCategoriesItems       = "id"|"name"|"description"|"freeze";
+type TCards                 = "id"|"name"|"description"|"type"|"price"|"move"|"attack"|"upgrade"|"delay"|"magicID"|"freeze";
+type TAvatarsMonsters       = "id"|"avatarLog"|"monsterLog"|"avatarID"|"itemID";
+type TAvatarsLabyrinths     = "id"|"labyrinthData"|"activeMissionID"|"labyrinthID"; 
+type TAvatarsItems          = "id"|"active"|"level"|"avatarID"|"itemID";
+type TUpgrade               = 'leven1'|'leven2'|'leven3'|'leven4'|'leven5'|'leven6';
+type TGlobalSetting         = "gameName"|"description"|"enablePvp"|"avatarPerUser"|"maxUpgrade";

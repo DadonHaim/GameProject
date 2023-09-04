@@ -5,14 +5,6 @@ export default class Price{
     public diamond    :number;          
     public redPowder  :number;                       
     constructor(jsonText:string){}
- 
 }
 
 
-// {
-//     "exp"       : 0,
-//     "silver"    : 0,
-//     "gold"      : 0,
-//     "diamond"   : 0,
-//     "redPowder" : 0
-// }

@@ -1,1 +1,1 @@
-{"version":3,"file":"price.json.js","sourceRoot":"","sources":["../../../Database/jsonModels/price.json.ts"],"names":[],"mappings":";;AAAA,MAAqB,KAAK;IAMtB,YAAY,QAAe,IAAE,CAAC;CAEjC;AARD,wBAQC;AAGD,IAAI;AACJ,uBAAuB;AACvB,uBAAuB;AACvB,uBAAuB;AACvB,uBAAuB;AACvB,sBAAsB;AACtB,IAAI"}
+{"version":3,"file":"price.json.js","sourceRoot":"","sources":["../../../Database/jsonModels/price.json.ts"],"names":[],"mappings":";;AAAA,MAAqB,KAAK;IAMtB,YAAY,QAAe,IAAE,CAAC;CAEjC;AARD,wBAQC"}

@@ -19,20 +19,3 @@ class _upgradeItems{
     public diamond       :number;
     public redPowder     :number;
 }
-
-
-// {
-//     "leven_1" : {
-//         "hp"            : 0,
-//         "energy"        : 0,
-//         "refillEnergy"  : 0,
-//         "exp"           : 0,
-//         "silver"        : 0,
-//         "gold"          : 0,
-//         "diamond"       : 0,
-//         "redPowder"     : 0
-//     },
-//     "leven_6" : {
-//        ...
-//     }
-// }

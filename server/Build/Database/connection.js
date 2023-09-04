@@ -29,15 +29,6 @@ class Database {
         (0, debug_1.default)(`SELECT ${fields.toString()} FROM ${form} where ${where}`);
         return `SELECT ${fields.toString()} FROM ${form} where ${where}`;
     }
-    static _update(obj) {
-        let fields = '';
-        let form = Database.protection(obj.from);
-        let where = Database.protection(obj.where);
-        for (let key in obj.newValues)
-            fields += `${Database.protection(key)} = '${Database.protection(obj.newValues[key])}'`;
-        (0, debug_1.default)(`UPDATE ${form} SET ${fields} where ${where}`);
-        return `UPDATE ${form} SET ${fields} where ${where}`;
-    }
     static protection(value) {
         if (value)
             return value;
@@ -48,8 +39,6 @@ class Database {
 Database.connection = "server=HAIM\\SQLEXPRESS;Database=GameProject;Trusted_Connection=Yes;Driver={SQL Server Native Client 11.0}";
 Database.Query = (query) => new Promise((T, F) => sql.query(Database.connection, query, (err, rows) => err ? F(err) : T(rows)));
 Database.QuerySync = (query) => { let res = sync(Database.Query)(query); return new ResultSql(res); };
-Database.Update = (obj) => Database.Query(Database._update(obj));
-Database.UpdateSync = (obj) => Database.QuerySync(Database._update(obj));
 exports.default = Database;
 class ResultSql {
     constructor(data) {
