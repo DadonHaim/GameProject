@@ -3,65 +3,44 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const debug_1 = __importDefault(require("../Dev/debug"));
-const sql = require("msnodesqlv8");
-const sync = require('synchronized-promise');
-class Database {
-    static Select(obj) { return Database.Query(Database._select(obj)); }
-    static SelectSync(obj) { return Database.QuerySync(Database._select(obj)); }
-    static _select(obj) {
-        let fields, and;
-        if (Array.isArray(obj.Fields)) {
-            fields = Database.protection(obj.Fields.map(field => `${obj.from ? obj.from + "." : ""}${field}`));
-            if (obj.And && obj.join)
-                fields.push(obj.And.map(v => `${obj.join + "."}${v}`));
-        }
-        else
-            fields = Database.protection(obj.Fields);
-        let form = Database.protection(obj.from);
-        let where = Database.protection(obj.where) || "1=1";
-        let join = Database.protection(obj.join);
-        let on = Database.protection(obj.on);
-        if (join && on) {
-            (0, debug_1.default)(`SELECT ${fields.toString()} FROM ${form} INNER JOIN ${join} ON ${on}`);
-            return (`SELECT ${fields.toString()} FROM ${form} INNER JOIN ${join} ON ${on}`);
-        }
-        (0, debug_1.default)(`SELECT ${fields.toString()} FROM ${form} where ${where}`);
-        return `SELECT ${fields.toString()} FROM ${form} where ${where}`;
+var msnodesqlv8_1 = __importDefault(require("msnodesqlv8"));
+var synchronized_promise_1 = __importDefault(require("synchronized-promise"));
+var ResultSql_1 = __importDefault(require("./ResultSql"));
+var Database = /** @class */ (function () {
+    function Database() {
     }
-    static protection(value) {
+    Database.Query = function (query) {
+        return new Promise(function (T, F) {
+            msnodesqlv8_1.default.query(Database.connection, query, function (e, r) { return e ? F(e) : T(r); });
+        });
+    };
+    Database.QuerySync = function (query) {
+        return new ResultSql_1.default((0, synchronized_promise_1.default)(Database.Query)(query));
+    };
+    Database.Select = function (obj) {
+        return Database.Query(Database._select(obj));
+    };
+    Database.SelectSync = function (obj) {
+        return Database.QuerySync(Database._select(obj));
+    };
+    Database._select = function (obj) {
+        var _a = Database.protection(obj), Fields = _a.Fields, And = _a.And, from = _a.from, join = _a.join, on = _a.on, where = _a.where;
+        Fields = Fields.map(function (field) { return obj.from + "." + field; });
+        if (And)
+            Fields.push((And.map(function (v) { return join + "." + v; })) || null);
+        var result = (join && on) ?
+            "SELECT ".concat(Fields.toString(), " FROM ").concat(from, " INNER JOIN ").concat(join, " ON ").concat(on, "  where ").concat(where || "1=1") :
+            "SELECT ".concat(Fields.toString(), " FROM ").concat(from, " where ").concat(where);
+        return result;
+    };
+    Database.protection = function (value) {
         if (value)
             return value;
         else
             return null;
-    }
-}
-Database.connection = "server=HAIM\\SQLEXPRESS;Database=GameProject;Trusted_Connection=Yes;Driver={SQL Server Native Client 11.0}";
-Database.Query = (query) => new Promise((T, F) => sql.query(Database.connection, query, (err, rows) => err ? F(err) : T(rows)));
-Database.QuerySync = (query) => { let res = sync(Database.Query)(query); return new ResultSql(res); };
+    };
+    Database.connection = "server=HAIM\\SQLEXPRESS;Database=GameProject;Trusted_Connection=Yes;Driver={SQL Server Native Client 11.0}";
+    return Database;
+}());
 exports.default = Database;
-class ResultSql {
-    constructor(data) {
-        this.valid = true;
-        this.Data = data;
-        if (!Array.isArray(this.Data))
-            this.valid = false;
-        else if (!this.Data[0])
-            this.valid = false;
-        else if (!this.Data[0].id)
-            this.valid = false;
-        else
-            this.valid = true;
-    }
-    ValidDB(callback) {
-        if (this.valid)
-            callback(this.Data);
-        return this;
-    }
-    NoValidDB(callback) {
-        if (!this.valid)
-            callback(this.Data);
-        return this;
-    }
-}
-//# sourceMappingURL=connection.js.map
+//# sourceMappingURL=Connection.js.map

@@ -1,27 +1,47 @@
 {
   "devDependencies": {
-    "@babel/core": "^7.22.10",
+    "@swc/core": "^1.3.82",
+    "@swc/helpers": "^0.5.1",
     "@types/express": "^4.17.1",
     "@types/node": "^20.4.4",
-    "install": "^0.13.0",
     "nodemon": "^3.0.1",
+    "regenerator-runtime": "^0.14.0",
     "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "@babel/preset-react": "^7.22.5",
     "@types/mssql": "^8.1.2",
     "@types/socket.io": "^3.0.2",
+    "chalk": "^5.3.0",
+    "colors": "^1.4.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "module-alias": "^2.2.3",
     "msnodesqlv8": "^4.1.0",
     "socket.io": "^4.7.2",
     "synchronized-promise": "^0.3.1"
   },
   "scripts": {
-    "start": "tsc && node build/server.js",
-    "dev": "set Haim=build && tsc && nodemon build/server.js",
-    "compile": "tsc && set Haim=build && node build/server.js",
-    "check": "nodemon build/server.js"
+    "start": "nodemon Build/server.js ",
+    "test": " node Build/test.js"
+  },
+  "_moduleAliases": {
+    "@Root": "./Build",
+    "@Validations": "./Build/Validations",
+    "@API": "./Build/Api",
+    "@Entities": "./Build/Models/Entities",
+    "@Categories": "./Build/Models/Categories",
+    "@Settings": "./Build/Models/Settings",
+    "@Interfaces": "./Build/Interfaces",
+    "@Functions": "./Build/Functions",
+    "@Dev": "./Build/Dev",
+    "@Database": "./Build/Database",
+    "@JsonModels": "./Build/Database/JsonModels",
+    "@DbModels": "./Build/Database/DbModels",
+    "@MiddleWares": "./Build/MiddleWares",
+    "@GSettings": "./Build/Settings",
+    "@AllTypesTable": "./Build/Database/DbModels/allTypesTable",
+    "@Tests": "./Build/Tests"
   }
 }

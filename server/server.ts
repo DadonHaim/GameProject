@@ -1,29 +1,24 @@
+require('module-alias/register')
+console.clear()
+import CrossMidlleWare from '@MiddleWares/Cross';
 import express          from 'express';
 import http             from 'http';
-import CrossMidlleWare  from '@MiddleWares/cross';
-import io,{Socket}      from 'socket.io';
-import User             from '@Entities/User/User';
-import Avatar           from '@Entities/Avatar/Avatar';
+import Test from './Tests/Test';
+import User from '@Entities/User/User';
+import { IRegisterTest } from './Settings/IRegisterSettings';
+
+
+
+
+//#region settings - server
+const app = express();
+const server = http.createServer(app);
+
+
+
 
 
     
-    //#region settings - server
-    const app = express();
-    const server = http.createServer(app);
-    const socket = require("socket.io")(
-        server,
-        {
-            cors: {
-                origin: "http://localhost:3000",
-                methods: ["GET", "POST"]
-        }
-    }) 
-    //#endregion
-
-    //#region middlesWares  
-        app.use(CrossMidlleWare);
-    //#endregion
-
 
 
 

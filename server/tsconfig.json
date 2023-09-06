@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
-    "jsx": "react",
     "module": "CommonJS",
     "esModuleInterop": true,
-    "target": "es6",
+    "target": "es5",
+    "allowJs": true,
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "Build",
+    "baseUrl": ".",
     "paths": {
        "@Validations/*"   : ["./Validations/*"],
        "@API/*"           : ["./Api/*"],
@@ -21,8 +22,12 @@
        "@DbModels/*"      : ["./Database/DbModels/*"],
        "@MiddleWares/*"   : ["./MiddleWares/*"],
        "@Root/*"          : ["./*"],
-       "@AllTypesTable"   : ["./Database/DbModels/allTypesTable"]
-    },
-    "lib": ["es2015"]
-  }
+       "@AllTypesTable"   : ["./Database/DbModels/allTypesTable"],
+       "@Tests/*"          : ["./Tests/*"],
+       "@GSettings/*"     : ["./Settings/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "twin.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"],
+
 }

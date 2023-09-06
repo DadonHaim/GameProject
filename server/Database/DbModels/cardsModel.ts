@@ -1,8 +1,5 @@
-import Move          from "@JsonModels/move.json";
-import Price         from "@JsonModels/price.json";
-import UpgradeCards  from "@JsonModels/upgradeCards.json";
 
-export default class cardsModel{
+export default class CardsModel{
     public id?              :number;
     public name?            :string;
     public description?     :string;
@@ -15,4 +12,6 @@ export default class cardsModel{
     public minAvatarLevel?  :number;
     public freeze?          :boolean;
     public magicID?         :number;
+    public maxUpgrade?      :number; 
+
 }

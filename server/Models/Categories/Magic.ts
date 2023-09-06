@@ -2,7 +2,7 @@ import DB            from "@Database/DB"
 import Database      from "@Database/Connection";
 import MagicsModel   from "@DbModels/MagicsModel";
 import ItemsModel    from "@Database/DbModels/ItemsModel";
-import cardsModel    from "@Database/DbModels/cardsModel";
+import cardsModel    from "@Database/DbModels/CardsModel";
 import AvatarsModel  from "@Database/DbModels/AvatarsModel";
 import MissionsModel from "@Database/DbModels/MissionsModel";
 import ResultSql     from "@Database/ResultSql";
@@ -13,7 +13,7 @@ export default class Magic extends DB<TMagics>{
     private freeze      : boolean;
     private isExist     : boolean = false;
 
-    public Get_Id         = ():number  => this.id;
+    public GetId         = ():number  => this.id;
     public GetName        = ():string  => this.name;
     public GetDescription = ():string  => this.description;
     public IsFreeze       = ():boolean => this.freeze;

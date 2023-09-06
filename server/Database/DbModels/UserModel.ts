@@ -7,6 +7,7 @@ export default class UserModel{
     public birthday?     : string;
     public registerDate? : string;
     public freeze?       : boolean;
+    public banned?        : boolean;
     public token?        : string;
 
 }

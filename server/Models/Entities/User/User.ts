@@ -1,9 +1,10 @@
 import UserModel          from "@DbModels/UserModel";
-import LoginValidation    from "@Validations/loginValidation";
-import RegisterValidation from "@Validations/registerValidation";
-import Avatar             from "@Entities/Avatar/Avatar"; 
-import randomString       from "@Functions/randomString";
+import randomString from "@Functions/randomString";
 import DB                 from "@Database/DB";
+import Database           from "@Database/Connection";
+import Avatar from "@Entities/Avatar/Avatar";
+import RegisterValidation from "@Validations/registerValidation";
+import LoginValidation from "@Validations/loginValidation";
 
 export default class User extends DB<TUser>{
     // #region Fields                              
@@ -16,7 +17,7 @@ export default class User extends DB<TUser>{
         private banned           :boolean | null ;  //{get;}                   
         private freeze           :boolean | null ;  //{get;}                   
         private token            :string  | null ;  //{get;}            
-        public  message          :any      ;       
+        public  message          :any;       
     //#endregion 
     
     //#region Flags:
@@ -31,21 +32,21 @@ export default class User extends DB<TUser>{
     //#endregion
 
     //#region Gets:
-        public  getId            = ():number        => this.id               ;
-        public  getUsername      = ():string        => this.username         ;
-        public  getEmail         = ():string        => this.email            ;
-        public  getFirstName     = ():string        => this.firstName        ;
-        public  getLastName      = ():string        => this.lastName         ;
-        public  getBirthday      = ():string        => this.birthday         ;
-        public  getRegisterDate  = ():string        => this.registerDate     ;
-        public  getBanned        = ():boolean       => this.banned           ;
-        public  getFreeze        = ():boolean       => this.freeze           ;
-        public  getToken         = ():string        => this.token            ;
+        public  GetId            = ():number        => this.id               ;
+        public  GetUsername      = ():string        => this.username         ;
+        public  GetEmail         = ():string        => this.email            ;
+        public  GetFirstName     = ():string        => this.firstName        ;
+        public  GetLastName      = ():string        => this.lastName         ;
+        public  GetBirthday      = ():string        => this.birthday         ;
+        public  GetRegisterDate  = ():string        => this.registerDate     ;
+        public  GetBanned        = ():boolean       => this.banned           ;
+        public  GetFreeze        = ():boolean       => this.freeze           ;
+        public  GetToken         = ():string        => this.token            ;
         public  IsExist          = ():boolean       => this.isExist          ;
         public  IsLogin          = ():boolean       => this.isLogin          ;
         public  IsSelectedAvatar = ():boolean       => this.isSelectedAvatar ;
-        public  getAvatars       = ():Avatar[]      => this.avatars          ;
-        public  getActiveAvatar  = ():(Avatar|null) => this.activeAvatar     ;
+        public  GetAvatars       = ():Avatar[]      => this.avatars          ;
+        public  GetActiveAvatar  = ():(Avatar|null) => this.activeAvatar     ;
     //#endregion
 
     //#region Sets:
@@ -53,22 +54,37 @@ export default class User extends DB<TUser>{
         public  setFirstName        = (value:string) :void  => {this.firstName  = value}
         public  setLastName         = (value:string) :void  => {this.lastName   = value}
         public  setBirthday         = (value:string) :void  => {this.birthday   = value}
-        public  setIsSelectedAvatar = (value:boolean):void =>{this.isSelectedAvatar = value}
+        public  setIsSelectedAvatar = (value:boolean):void  => {this.isSelectedAvatar = value}
     //#endregion
 
     //#region Method
-        public constructor(){
+        public constructor(obj?:UserModel){
             super({tableName:"users"})
+
+            if(obj){
+                this.id           = (obj.id           )? obj.id           : null;         
+                this.username     = (obj.username     )? obj.username     : null;         
+                this.email        = (obj.email        )? obj.email        : null;        
+                this.firstName    = (obj.firstName    )? obj.firstName    : null;        
+                this.lastName     = (obj.lastName     )? obj.lastName     : null;         
+                this.birthday     = (obj.birthday     )? obj.birthday     : null;         
+                this.registerDate = (obj.registerDate )? obj.registerDate : null;         
+                this.banned       = (obj.banned       )? obj.banned       : null;       
+                this.freeze       = (obj.freeze       )? obj.freeze       : null;       
+                this.token        = (obj.token        )? obj.token        : null;        
+            }
+            this.isExist = (this.id && this.username)? true :false;
         }
           
-        public logout(){
+        public Logout():User{
             if(!this.isLogin) return;
             this.removeToken();
             this.id = null;
             this.isLogin = false; 
+            return this;
         }
 
-        public login(obj:ILogin){
+        public Login(obj:ILogin):User{
             if(this.isLogin) return;
             LoginValidation(obj).Valid(()=>{
                 this.SelectSync({
@@ -87,29 +103,38 @@ export default class User extends DB<TUser>{
                     this.isLogin = false;
                 })
             }).NoValid((msgs)=>this.message = msgs)  
+            return this;
         }
         
-        public register(obj:IRegister){ 
+        public Register(obj:IRegister):User{ 
             if(this.isLogin) return
             RegisterValidation(obj).Valid(()=>{
                 this.isExist = true;
-                this.isLogin = true;
+                this.isLogin = false;
+                this.username = obj.username;
+                this.QuerySync(`insert into users (username,password,email,firstName,lastName) Values ('${obj.username}','${obj.password}','${obj.email}','${obj.firstName}','${obj.lastName}')`)
             }).NoValid(msg=>{
                 this.isExist = false;
                 this.isLogin = false;
                 this.message = msg; 
             })
+            return this;
+        }
+
+        public Delete(){
+            Database.QuerySync(`Delete from users where username='${this.username}'`)
+            this.isExist = false;
         }
 
         private createToken(){
             if(!this.IsLogin()) return;
             let token = randomString(40)
-            // this.UpdateSync({token: token})
+            this.QuerySync(`Update users Set token='${token}' Where id=${this.id}`)
             this.token = token;
         }
         private removeToken(){
             if(!this.IsExist()) return;
-            // this.UpdateSync({token:'',}) 
+            this.QuerySync(`Update users Set token='' Where id=${this.id}`)
             this.token = null;
         }
 
@@ -119,7 +144,7 @@ export default class User extends DB<TUser>{
                 this.activeAvatar = null;
                 return;
             }
-            this.activeAvatar = this.avatars.find(avatar=>avatar.getId()==avatarRef.getId());
+            this.activeAvatar = this.avatars.find(avatar=>avatar.GetId()==avatarRef.GetId());
             if(this.activeAvatar)
                 this.isSelectedAvatar = true;
         }
@@ -128,8 +153,55 @@ export default class User extends DB<TUser>{
     //#endregion
 
     //#region Statics:
-        public static getAllUsers     (): User[] {return null   }
-        public static getAllUsersLite (): User[] {return null    }
+        public static getAllUsers(): Promise<any> {
+            return Database.Select<TUser>({
+                Fields:['id','username','email','firstName','lastName','birthday','registerDate','freeze','token'],
+                from:"users",
+            })
+        }
+        public static getAllUsersSync(): User[] {
+            let user:User[] = [];
+            Database.SelectSync<TUser>({
+                Fields:['id','username','email','firstName','lastName','birthday','registerDate','freeze','token'],
+                from:"users",
+            })
+            .ValidDB<UserModel[]>(data=> data.forEach(u=>user.push(new User(u))))
+            return user
+        }
+        
+
+        public static GetUserById(userID:number):User{
+            let user:User = null;
+            Database.SelectSync<TUser>({
+                Fields:['id','username','email','firstName','lastName','birthday','registerDate','freeze','token'],
+                from:"users",
+                where : `id='${userID}'`
+            })
+            .ValidDB<UserModel[]>(data=> user=new User(data[0]))
+            return user
+        }
+        public static GetUserByUsername(username:string):User{
+            let user:User = null;
+            Database.SelectSync<TUser>({
+                Fields:['id','username','email','firstName','lastName','birthday','registerDate','freeze','token'],
+                from:"users",
+                where : `username='${username}'`
+            })
+            .ValidDB<UserModel[]>(data=> user=new User(data[0]))
+            return user
+        }
+        public static GetUserByToken(token:string):User{
+            let user:User = null;
+            Database.SelectSync<TUser>({
+                Fields:['id','username','email','firstName','lastName','birthday','registerDate','freeze','token'],
+                from:"users",
+                where : `token='${token}'`
+            })
+            .ValidDB<UserModel[]>(data=> user=new User(data[0]))
+            return user
+        }
+
+
     //#endregion
 
 }

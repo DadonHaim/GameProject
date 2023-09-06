@@ -31,9 +31,9 @@ export default class Inventory extends DB<TAvatarsItems>{
     }
 
     public SetActiveItem(obj:{category:string,item:Item}){
-        this.Query(`Update avatars_items Set active=0 Where itemID=${this.activeItems[obj.category].GetId()} and avatarID = ${this.avatar.getId()}`)
+        this.Query(`Update avatars_items Set active=0 Where itemID=${this.activeItems[obj.category].GetId()} and avatarID = ${this.avatar.GetId()}`)
         this.activeItems[obj.category] = obj.item;
-        this.Query(`Update avatars_items Set active=1 Where itemID=${obj.item.GetId()} and avatarID = ${this.avatar.getId()}`)
+        this.Query(`Update avatars_items Set active=1 Where itemID=${obj.item.GetId()} and avatarID = ${this.avatar.GetId()}`)
     }
 
 }

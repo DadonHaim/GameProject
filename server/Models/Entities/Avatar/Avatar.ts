@@ -34,19 +34,19 @@ export default class Avatar extends DB<TAvatars>{
     //#endregion
 
     //#region Gets      
-        public getId            = ():number     => this.id           ;
-        public getName          = ():string     => this.name         ;
-        public getExp           = ():number     => this.exp          ;
-        public getSilver        = ():number     => this.silver       ;
-        public getGold          = ():number     => this.gold         ;
-        public getRedPowder     = ():number     => this.redPowder    ;
-        public getDiamond       = ():number     => this.diamond      ;
-        public getCreatedDate   = ():string     => this.createdDate  ;
-        public getInventory     = ():Inventory  => this.inventory    ;
-        public getUser          = ():User       => this.user         ;
-        public getActiveMission = ()            => this.activeMission;
-        public getMagicType     = ()            => this.magicType    ;
-        public getPage          = ()            => this.page         ;
+        public GetId            = ():number     => this.id           ;
+        public GetName          = ():string     => this.name         ;
+        public GetExp           = ():number     => this.exp          ;
+        public GetSilver        = ():number     => this.silver       ;
+        public GetGold          = ():number     => this.gold         ;
+        public GetRedPowder     = ():number     => this.redPowder    ;
+        public GetDiamond       = ():number     => this.diamond      ;
+        public GetCreatedDate   = ():string     => this.createdDate  ;
+        public GetInventory     = ():Inventory  => this.inventory    ;
+        public GetUser          = ():User       => this.user         ;
+        public GetActiveMission = ()            => this.activeMission;
+        public GetMagicType     = ()            => this.magicType    ;
+        public GetPage          = ()            => this.page         ;
     //#endregion
 
     //#region Method
@@ -92,7 +92,7 @@ export default class Avatar extends DB<TAvatars>{
         Database.SelectSync<TAvatars>({
             Fields  : ["id","name","userID","createdDate","exp","gold","silver","redPowder","diamond","freeze","magicID","missionID"],
             from    : "avatars",
-            where   : `userID='${user.getId()}'`
+            where   : `userID='${user.GetId()}'`
         })
         .ValidDB<AvatarsModel[]>(data =>{
             data.forEach((avatar)=>{

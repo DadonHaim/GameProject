@@ -1,11 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class Labyrinth {
-    constructor(jsonText) { }
-}
+var Labyrinth = /** @class */ (function () {
+    function Labyrinth(jsonText) {
+    }
+    return Labyrinth;
+}());
 exports.default = Labyrinth;
-class _labyrinth {
-}
+var _labyrinth = /** @class */ (function () {
+    function _labyrinth() {
+    }
+    return _labyrinth;
+}());
 // {
 //     "frame_1" : {
 //         "monster_data":{

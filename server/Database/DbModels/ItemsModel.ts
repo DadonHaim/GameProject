@@ -1,7 +1,3 @@
-import Price        from "@JsonModels/price.json";
-import sale         from "@JsonModels/sale.json";
-import UpgradeItems from "@JsonModels/upgradeItems.json";
-
 export default class ItemsModel{
     public id?               :number;
     public name?             :string;
@@ -16,4 +12,5 @@ export default class ItemsModel{
     public minAvatarLevel?   :number;
     public categoryItem?     :string;
     public magicID?          :number; 
+    public maxUpgrade?       :number; 
 }

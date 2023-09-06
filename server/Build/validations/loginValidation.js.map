@@ -1,1 +1,1 @@
-{"version":3,"file":"loginValidation.js","sourceRoot":"","sources":["../../validations/loginValidation.ts"],"names":[],"mappings":";;;;;AAAA,gEAAwC;AAExC,SAAyB,eAAe,CAAC,GAAU;IAG/C,OAAO,IAAI,qBAAW,CAAC,EAAE,EAAC,IAAI,CAAC,CAAC;AACpC,CAAC;AAJD,kCAIC"}
+{"version":3,"file":"loginValidation.js","sourceRoot":"","sources":["../../Validations/loginValidation.ts"],"names":[],"mappings":";;;;;AAAA,8DAAwC;AAExC,SAAyB,eAAe,CAAC,GAAU;IAG/C,OAAO,IAAI,qBAAW,CAAC,EAAE,EAAC,IAAI,CAAC,CAAC;AACpC,CAAC;AAJD,kCAIC"}

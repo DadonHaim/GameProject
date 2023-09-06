@@ -1,1 +1,1 @@
-{"version":3,"file":"price.json.js","sourceRoot":"","sources":["../../../Database/jsonModels/price.json.ts"],"names":[],"mappings":";;AAAA,MAAqB,KAAK;IAMtB,YAAY,QAAe,IAAE,CAAC;CAEjC;AARD,wBAQC"}
+{"version":3,"file":"price.json.js","sourceRoot":"","sources":["../../../Database/JsonModels/price.json.ts"],"names":[],"mappings":";;AAAA;IAMI,eAAY,QAAe;IAAE,CAAC;IAClC,YAAC;AAAD,CAAC,AAPD,IAOC"}

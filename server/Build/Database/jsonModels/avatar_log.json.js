@@ -1,11 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class AvatarLog {
-    constructor(jsonText) { }
-}
+var AvatarLog = /** @class */ (function () {
+    function AvatarLog(jsonText) {
+    }
+    return AvatarLog;
+}());
 exports.default = AvatarLog;
-class _round {
-}
+var _round = /** @class */ (function () {
+    function _round() {
+    }
+    return _round;
+}());
 // {
 //     "start" :{
 //         "active_items" : [],

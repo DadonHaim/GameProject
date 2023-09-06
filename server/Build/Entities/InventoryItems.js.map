@@ -1,1 +1,0 @@
-{"version":3,"file":"InventoryItems.js","sourceRoot":"","sources":["../../Entities/InventoryItems.ts"],"names":[],"mappings":";;;;;AAAA,wDAAgC;AAGhC,MAAqB,cAAe,SAAQ,YAAiC;IAGzE;QACI,KAAK,CAAC,EAAC,SAAS,EAAC,eAAe,EAAC,CAAC,CAAA;IACtC,CAAC;IAGM,WAAW;QACd,sBAAsB;QAGtB,OAAO,CAAC,IAAI,CAAC,CAAA;IACjB,CAAC;CAGJ;AAhBD,iCAgBC"}

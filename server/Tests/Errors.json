@@ -1,0 +1,22 @@
+{
+    "1" : "registerTest :1 -> username is null -> return User insead of null",
+    "2" : "registerTest :2 -> password is null -> return User insead of null",
+    "3" : "registerTest :3 -> Fn and Ln is null -> no return user",
+    "4" : "",
+    "5" : "",
+    "6" : "",
+    "7" : "",
+    "8" : "",
+    "9" : "",
+    "10" : "",
+    "11" : "",
+    "12" : "",
+    "13" : "",
+    "14" : "",
+    "15" : "",
+    "16" : "",
+    "17" : "",
+    "18" : "",
+    "19" : "",
+    "20" : ""
+}

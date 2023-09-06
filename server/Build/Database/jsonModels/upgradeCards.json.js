@@ -1,11 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class UpgradeCards {
-    constructor(jsonText) { }
-}
+var UpgradeCards = /** @class */ (function () {
+    function UpgradeCards(jsonText) {
+    }
+    return UpgradeCards;
+}());
 exports.default = UpgradeCards;
-class _upgradeCards {
-}
+var _upgradeCards = /** @class */ (function () {
+    function _upgradeCards() {
+    }
+    return _upgradeCards;
+}());
 // {
 //     "leven_1" : {
 //         "damage"        : 0,

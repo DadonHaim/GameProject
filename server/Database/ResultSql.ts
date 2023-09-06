@@ -7,7 +7,7 @@ export default class ResultSql{
         if(
             Array.isArray(Data) &&
             Data[0]  != null    &&
-            Data[0]?.id
+            Object.keys(Data[0]).length >0
         )
         this.valid = true; 
     }

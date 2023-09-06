@@ -1,11 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class sale {
-    constructor(jsonText) { }
-}
+var sale = /** @class */ (function () {
+    function sale(jsonText) {
+    }
+    return sale;
+}());
 exports.default = sale;
-class Moneys {
-}
+var Moneys = /** @class */ (function () {
+    function Moneys() {
+    }
+    return Moneys;
+}());
 // {
 //     "leven_1":{
 //         "silver"    : 0,

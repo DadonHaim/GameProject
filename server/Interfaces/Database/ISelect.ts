@@ -6,3 +6,4 @@ interface ISelect<T=any>{
     where?  : string;
     from?   : listAllTableType
 }
+

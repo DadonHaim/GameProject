@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class Prize {
-    constructor(jsonText) { }
-}
+var Prize = /** @class */ (function () {
+    function Prize(jsonText) {
+    }
+    return Prize;
+}());
 exports.default = Prize;
 // {
 //     "exp"       : 0,

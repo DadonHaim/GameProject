@@ -10,8 +10,11 @@ export default class DB<Model>{
     protected Query(query:string){
         return Database.Query(query);
     }
-    
-    protected SelectSync({where,join,on,Fields,And,from}:ISelect<Model>){
+    protected QuerySync(query:string){
+        return Database.QuerySync(query);
+    }
+
+    protected SelectSync<Model = any>({where,join,on,Fields,And,from}:ISelect<Model>){
         return Database.SelectSync({
             where:(where||'id='+this.id),
             from :(from||this.tableName),

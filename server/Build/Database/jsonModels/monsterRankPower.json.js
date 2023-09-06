@@ -1,11 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class MonsterRankPower {
-    constructor(jsonText) { }
-}
+var MonsterRankPower = /** @class */ (function () {
+    function MonsterRankPower(jsonText) {
+    }
+    return MonsterRankPower;
+}());
 exports.default = MonsterRankPower;
-class _monsterRankPower {
-}
+var _monsterRankPower = /** @class */ (function () {
+    function _monsterRankPower() {
+    }
+    return _monsterRankPower;
+}());
 // {
 //     "addPerRank":{
 //         "hp"           : 0,

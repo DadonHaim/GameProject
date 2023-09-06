@@ -1,1 +1,1 @@
-{"version":3,"file":"move.json.js","sourceRoot":"","sources":["../../../Database/jsonModels/move.json.ts"],"names":[],"mappings":";;AAAA,MAAqB,IAAI;IAKrB,YAAY,QAAe,IAAE,CAAC;CAEjC;AAPD,uBAOC;AAED,IAAI;AACJ,mBAAmB;AACnB,mBAAmB;AACnB,mBAAmB;AACnB,kBAAkB;AAClB,IAAI"}
+{"version":3,"file":"move.json.js","sourceRoot":"","sources":["../../../Database/JsonModels/move.json.ts"],"names":[],"mappings":";;AAAA;IAKI,cAAY,QAAe;IAAE,CAAC;IAElC,WAAC;AAAD,CAAC,AAPD,IAOC;;AAED,IAAI;AACJ,mBAAmB;AACnB,mBAAmB;AACnB,mBAAmB;AACnB,kBAAkB;AAClB,IAAI"}

@@ -1,20 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class ResultValid {
-    constructor(messages, isValid) {
+var ResultValid = /** @class */ (function () {
+    function ResultValid(messages, isValid) {
         this.valid = isValid;
         this.messages = messages;
     }
-    Valid(callback) {
+    ResultValid.prototype.Valid = function (callback) {
         if (this.valid)
             callback(this.messages);
         return this;
-    }
-    NoValid(callback) {
+    };
+    ResultValid.prototype.NoValid = function (callback) {
         if (!this.valid)
             callback(this.messages);
         return this;
-    }
-}
+    };
+    return ResultValid;
+}());
 exports.default = ResultValid;
 //# sourceMappingURL=ResultValid.js.map

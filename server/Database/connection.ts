@@ -24,11 +24,10 @@ export default  class Database{
     public static _select(obj:ISelect):string{
         let {Fields,And,from,join,on,where} = Database.protection<ISelect>(obj);
         Fields = Fields.map( field => obj.from +"."+field );
-        Fields.push( (And.map(v=>join+"."+v)) ||null );
+        if(And) Fields.push( (And.map(v=>join+"."+v)) ||null );
         let result = (join && on)?
             `SELECT ${Fields.toString()} FROM ${from} INNER JOIN ${join} ON ${on}  where ${where ||"1=1"}` :
             `SELECT ${Fields.toString()} FROM ${from} where ${where}`;
-        Debug(result);
         return result;
     }
     
