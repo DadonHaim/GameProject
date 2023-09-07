@@ -18,7 +18,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var DB_1 = __importDefault(require("@Database/DB"));
 var Connection_1 = __importDefault(require("@Database/Connection"));
 var price_json_1 = __importDefault(require("@JsonModels/price.json"));
 var sale_json_1 = __importDefault(require("@JsonModels/sale.json"));
@@ -99,7 +98,7 @@ var Item = /** @class */ (function (_super) {
     //#region statics
     Item.getAllItemsByAvatar = function (avatar) {
         var items = [];
-        Connection_1.default.SelectSync({
+        new Connection_1.default().SelectSync({
             Fields: ["id", "name", "description", "freeze", "price", "color", "sale", "upgrade", "categoryItem", "minAvatarLevel", "maxUpgrade"],
             And: ["active"],
             from: "items",
@@ -115,7 +114,7 @@ var Item = /** @class */ (function (_super) {
     //#endregion
     Item.GetItemById = function (itemID) {
         var item = null;
-        Connection_1.default.SelectSync({
+        new Connection_1.default().SelectSync({
             Fields: ["id", "name", "description", "freeze", "price", "color", "sale", "upgrade", "categoryItem", "minAvatarLevel", "maxUpgrade"],
             from: 'items',
             where: "id = ".concat(itemID)
@@ -125,7 +124,7 @@ var Item = /** @class */ (function (_super) {
     };
     Item.GetItemByName = function (itemName) {
         var item = null;
-        Connection_1.default.SelectSync({
+        new Connection_1.default().SelectSync({
             Fields: ["id", "name", "description", "freeze", "price", "color", "sale", "upgrade", "categoryItem", "minAvatarLevel", "maxUpgrade"],
             from: 'items',
             where: "name = ".concat(itemName)
@@ -134,7 +133,7 @@ var Item = /** @class */ (function (_super) {
         return item;
     };
     Item.GetItemsByAvatar = function (avatar) {
-        return Connection_1.default.Select({
+        return new Connection_1.default().Select({
             Fields: ["id", "name", "description", "freeze", "price", "color", "sale", "upgrade", "categoryItem", "minAvatarLevel", "maxUpgrade"],
             from: "items",
             join: "avatars_items",
@@ -143,7 +142,7 @@ var Item = /** @class */ (function (_super) {
     };
     Item.GetItemsByAvatarSync = function (avatar) {
         var items = [];
-        Connection_1.default.SelectSync({
+        new Connection_1.default().SelectSync({
             Fields: ["id", "name", "description", "freeze", "price", "color", "sale", "upgrade", "categoryItem", "minAvatarLevel", "maxUpgrade"],
             from: "items",
             join: "avatars_items",
@@ -155,7 +154,7 @@ var Item = /** @class */ (function (_super) {
         return items;
     };
     Item.GetCardsByMinAvatarLeven = function (minLeven) {
-        return Connection_1.default.Select({
+        return new Connection_1.default().Select({
             Fields: ["id", "name", "description", "freeze", "price", "color", "sale", "upgrade", "categoryItem", "minAvatarLevel", "maxUpgrade"],
             from: "items",
             join: "avatars_items",
@@ -164,7 +163,7 @@ var Item = /** @class */ (function (_super) {
     };
     Item.GetCardsByMinAvatarLevenSync = function (minLeven) {
         var items = [];
-        Connection_1.default.SelectSync({
+        new Connection_1.default().SelectSync({
             Fields: ["id", "name", "description", "freeze", "price", "color", "sale", "upgrade", "categoryItem", "minAvatarLevel", "maxUpgrade"],
             from: "items",
             join: "avatars_items",
@@ -176,7 +175,7 @@ var Item = /** @class */ (function (_super) {
         return items;
     };
     Item.GetItemsByMagic = function (magic) {
-        return Connection_1.default.Select({
+        return new Connection_1.default().Select({
             Fields: ["id", "name", "description", "freeze", "price", "color", "sale", "upgrade", "categoryItem", "minAvatarLevel", "maxUpgrade"],
             from: "items",
             where: "magicID=".concat(magic.GetId())
@@ -184,7 +183,7 @@ var Item = /** @class */ (function (_super) {
     };
     Item.GetItemsByMagicSync = function (magic) {
         var items = [];
-        Connection_1.default.SelectSync({
+        new Connection_1.default().SelectSync({
             Fields: ["id", "name", "description", "freeze", "price", "color", "sale", "upgrade", "categoryItem", "minAvatarLevel", "maxUpgrade"],
             from: "items",
             where: "magicID=".concat(magic.GetId())
@@ -195,7 +194,7 @@ var Item = /** @class */ (function (_super) {
         return items;
     };
     Item.GetItemsByType = function (type) {
-        return Connection_1.default.Select({
+        return new Connection_1.default().Select({
             Fields: ["id", "name", "description", "freeze", "price", "color", "sale", "upgrade", "categoryItem", "minAvatarLevel", "maxUpgrade"],
             from: "items",
             where: "type=".concat(type)
@@ -203,7 +202,7 @@ var Item = /** @class */ (function (_super) {
     };
     Item.GetItemsByTypeSync = function (type) {
         var items = [];
-        Connection_1.default.SelectSync({
+        new Connection_1.default().SelectSync({
             Fields: ["id", "name", "description", "freeze", "price", "color", "sale", "upgrade", "categoryItem", "minAvatarLevel", "maxUpgrade"],
             from: "items",
             where: "type=".concat(type)
@@ -214,6 +213,6 @@ var Item = /** @class */ (function (_super) {
         return items;
     };
     return Item;
-}(DB_1.default));
+}(Connection_1.default));
 exports.default = Item;
 //# sourceMappingURL=Item.js.map

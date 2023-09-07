@@ -1,19 +1,14 @@
-import DB            from "@Database/DB"
 import Database      from "@Database/Connection";
 import MagicsModel   from "@DbModels/MagicsModel";
-import ItemsModel    from "@Database/DbModels/ItemsModel";
-import cardsModel    from "@Database/DbModels/CardsModel";
-import AvatarsModel  from "@Database/DbModels/AvatarsModel";
-import MissionsModel from "@Database/DbModels/MissionsModel";
 import ResultSql     from "@Database/ResultSql";
 
-export default class Magic extends DB<TMagics>{
+export default class Magic extends Database<TMagics>{
     private name        : string;
     private description : string;
     private freeze      : boolean;
     private isExist     : boolean = false;
 
-    public GetId         = ():number  => this.id;
+    public GetId          = ():number  => this.id;
     public GetName        = ():string  => this.name;
     public GetDescription = ():string  => this.description;
     public IsFreeze       = ():boolean => this.freeze;
@@ -33,58 +28,58 @@ export default class Magic extends DB<TMagics>{
     public GetAllItems(sync?:boolean) :ResultSql|Promise<any>{
         let query = `Select * from items where magicID=${this.id}`;
         if(sync)
-            return Database.QuerySync(query);
-        return Database.Query(query);
+            return new Database().QuerySync(query);
+        return new Database().Query(query);
     }
     public GetAllCards(sync?:boolean):ResultSql|Promise<any>{
         let query = `Select * from cards where magicID=${this.id}`;
         if(sync)
-            return Database.QuerySync(query);
-        return Database.Query(query);
+            return new Database().QuerySync(query);
+        return new Database().Query(query);
     }
     public GetAllAvatars(sync?:boolean):ResultSql|Promise<any>{
         let query = `Select * from avatars where magicID=${this.id}`;
         if(sync)
-            return Database.QuerySync(query);
-        return Database.Query(query);
+            return new Database().QuerySync(query);
+        return new Database().Query(query);
     }
     public GetAllMissions(sync?:boolean):ResultSql|Promise<any>{
         let query = `Select * from missions where magicID=${this.id}`;
         if(sync)
-            return Database.QuerySync(query);
-        return Database.Query(query);
+            return new Database().QuerySync(query);
+        return new Database().Query(query);
     }
 
 
     public GetAllItemsLite(sync?:boolean) :ResultSql|Promise<any>{
         let query = `Select id,name,description from items where magicID=${this.id}`;
         if(sync)
-            return Database.QuerySync(query);
-        return Database.Query(query);
+            return new Database().QuerySync(query);
+        return new Database().Query(query);
     }
     public GetAllCardsLite(sync?:boolean):ResultSql|Promise<any>{
         let query = `Select * from cards where magicID=${this.id}`;
         if(sync)
-            return Database.QuerySync(query);
-        return Database.Query(query);
+            return new Database().QuerySync(query);
+        return new Database().Query(query);
     }
     public GetAllAvatarsLite(sync?:boolean):ResultSql|Promise<any>{
         let query = `Select * from avatars where magicID=${this.id}`;
         if(sync)
-            return Database.QuerySync(query);
-        return Database.Query(query);
+            return new Database().QuerySync(query);
+        return new Database().Query(query);
     }
     public GetAllMissionsLite(sync?:boolean):ResultSql|Promise<any>{
         let query = `Select * from missions where magicID=${this.id}`;
         if(sync)
-            return Database.QuerySync(query);
-        return Database.Query(query);
+            return new Database().QuerySync(query);
+        return new Database().Query(query);
     }
 
 
     public static GetMagicById(magicId :number):Magic{
         let magic: Magic = null;
-        Database.SelectSync<TMagics>({
+        new Database().SelectSync<TMagics>({
             Fields:["id","name","description","freeze"],
             from: 'magics',
             where :`id = ${magicId}`
@@ -94,7 +89,7 @@ export default class Magic extends DB<TMagics>{
     }
     public static GetMagicByName(magicName:string):Magic{
         let magic: Magic = null;
-        Database.SelectSync<TMagics>({
+        new Database().SelectSync<TMagics>({
             Fields:["id","name","description","freeze"],
             from: 'magics',
             where :`name = '${magicName}'`
@@ -104,7 +99,7 @@ export default class Magic extends DB<TMagics>{
     }
     public static GetListMagics():Magic[]{
         let magics :Magic[] = [];
-        Database.SelectSync<TMagics>({
+        new Database().SelectSync<TMagics>({
             Fields:["id","name","description","freeze"],
             from: 'magics'
         })

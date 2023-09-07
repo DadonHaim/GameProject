@@ -8,5 +8,6 @@ require('module-alias/register');
 Test_1.default.DeleteTestDB();
 Test_1.default.CreateTestDB();
 require("@Tests/RegisterTest");
+require("@Tests/ILoginTest");
 Test_1.default.DeleteTestDB();
 //# sourceMappingURL=test.js.map

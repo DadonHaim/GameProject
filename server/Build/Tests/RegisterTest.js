@@ -31,42 +31,45 @@ var IRegisterSettings_1 = require("@GSettings/IRegisterSettings");
 var Test_1 = __importStar(require("./Test"));
 var user;
 var T1 = new Test_1.default({
-    name: "test1",
+    name: "בדיקת הרשמה למשחק",
     description: "",
     options: IRegisterSettings_1.IRegisterTest
 })
     .AllNull(function (data, msg) {
     user = new User_1.default().Register(data);
     user.IsExist() ? (0, Test_1.NoValid)(msg) : (0, Test_1.Valid)(msg);
-    user.Delete();
+    user.DeleteDB();
 })
     .AllRequireNull((function (data, msg) {
     user = new User_1.default().Register(data);
     user.IsExist() ? (0, Test_1.NoValid)(msg) : (0, Test_1.Valid)(msg);
-    user.Delete();
+    user.DeleteDB();
 }))
     .AllOptinalNull((function (data, msg) {
     user = new User_1.default().Register(data);
     user.IsExist() ? (0, Test_1.Valid)(msg) : (0, Test_1.NoValid)(msg);
-    user.Delete();
-}))
-    .LenMin("username", function (data, msg) {
-    user = new User_1.default().Register(data);
-    user.IsExist() ? (0, Test_1.NoValid)(msg) : (0, Test_1.Valid)(msg);
-    user.Delete();
-})
-    .LenMax("username", function (data, msg) {
-    user = new User_1.default().Register(data);
-    user.IsExist() ? (0, Test_1.NoValid)(msg) : (0, Test_1.Valid)(msg);
-    user.Delete();
-});
-for (var key in T1.options) {
-    if (!T1.options[key].require)
-        continue;
-    T1.Exist(key, function (data, msg) {
+    user.DeleteDB();
+}));
+for (var k in T1.options) {
+    T1.LenMin(k, function (data, msg) {
         user = new User_1.default().Register(data);
         user.IsExist() ? (0, Test_1.NoValid)(msg) : (0, Test_1.Valid)(msg);
-        user.Delete();
+        user.DeleteDB();
+    });
+    T1.LenMax(k, function (data, msg) {
+        user = new User_1.default().Register(data);
+        user.IsExist() ? (0, Test_1.NoValid)(msg) : (0, Test_1.Valid)(msg);
+        user.DeleteDB();
     });
 }
+T1.Exist("username", function (data, msg) {
+    user = new User_1.default().Register(data);
+    user.IsExist() ? (0, Test_1.NoValid)(msg) : (0, Test_1.Valid)(msg);
+    user.DeleteDB();
+})
+    .Exist("email", function (data, msg) {
+    user = new User_1.default().Register(data);
+    user.IsExist() ? (0, Test_1.NoValid)(msg) : (0, Test_1.Valid)(msg);
+    user.DeleteDB();
+});
 //# sourceMappingURL=RegisterTest.js.map

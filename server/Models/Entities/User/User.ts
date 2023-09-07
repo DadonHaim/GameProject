@@ -1,22 +1,21 @@
 import UserModel          from "@DbModels/UserModel";
 import randomString from "@Functions/randomString";
-import DB                 from "@Database/DB";
 import Database           from "@Database/Connection";
 import Avatar from "@Entities/Avatar/Avatar";
 import RegisterValidation from "@Validations/registerValidation";
 import LoginValidation from "@Validations/loginValidation";
 
-export default class User extends DB<TUser>{
+export default class User extends Database<TUser>{
     // #region Fields                              
-        private username         :string  | null ;  //{get;}                       
-        private email            :string  | null ;  //{get; set;}                   
-        private firstName        :string  | null ;  //{get; set;}                       
-        private lastName         :string  | null ;  //{get; set;}                       
-        private birthday         :string  | null ;  //{get; set;}                       
-        private registerDate     :string  | null ;  //{get;}                           
-        private banned           :boolean | null ;  //{get;}                   
-        private freeze           :boolean | null ;  //{get;}                   
-        private token            :string  | null ;  //{get;}            
+        private username         :string  | null =null;  //{get;}                       
+        private email            :string  | null =null;  //{get; set;}                   
+        private firstName        :string  | null =null;  //{get; set;}                       
+        private lastName         :string  | null =null;  //{get; set;}                       
+        private birthday         :string  | null =null;  //{get; set;}                       
+        private registerDate     :string  | null =null;  //{get;}                           
+        private banned           :boolean | null =null;  //{get;}                   
+        private freeze           :boolean | null =null;  //{get;}                   
+        private token            :string  | null =null;  //{get;}            
         public  message          :any;       
     //#endregion 
     
@@ -63,6 +62,7 @@ export default class User extends DB<TUser>{
 
             if(obj){
                 this.id           = (obj.id           )? obj.id           : null;         
+                this.id           = (obj.id           )? obj.id           : null;         
                 this.username     = (obj.username     )? obj.username     : null;         
                 this.email        = (obj.email        )? obj.email        : null;        
                 this.firstName    = (obj.firstName    )? obj.firstName    : null;        
@@ -79,7 +79,7 @@ export default class User extends DB<TUser>{
         public Logout():User{
             if(!this.isLogin) return;
             this.removeToken();
-            this.id = null;
+            this.id      = null;
             this.isLogin = false; 
             return this;
         }
@@ -121,47 +121,55 @@ export default class User extends DB<TUser>{
             return this;
         }
 
-        public Delete(){
-            Database.QuerySync(`Delete from users where username='${this.username}'`)
+        public DeleteDB(){
+            this.DeleteSync({where:`username='${this.username}'`})
             this.isExist = false;
         }
 
         private createToken(){
             if(!this.IsLogin()) return;
             let token = randomString(40)
-            this.QuerySync(`Update users Set token='${token}' Where id=${this.id}`)
+            this.UpdateSync({update: {token:token}})
             this.token = token;
         }
         private removeToken(){
             if(!this.IsExist()) return;
-            this.QuerySync(`Update users Set token='' Where id=${this.id}`)
+            this.UpdateSync({update: {token:''}})
             this.token = null;
         }
 
-        public UpdateActiveAvatar(avatarRef:Avatar){
-            if(avatarRef == null){
+        public UpdateActiveAvatar(avatar:Avatar){
+            if(!avatar){
                 this.isSelectedAvatar = false;
                 this.activeAvatar = null;
                 return;
             }
-            this.activeAvatar = this.avatars.find(avatar=>avatar.GetId()==avatarRef.GetId());
-            if(this.activeAvatar)
-                this.isSelectedAvatar = true;
+            this.activeAvatar = this.avatars.find(a=>a.GetId()==avatar.GetId());
+            this.isSelectedAvatar = this.activeAvatar? true : false;
         }
         private fillFields   = (data:UserModel)  => {for(let key in data) this[key]=data[key]};
 
     //#endregion
 
     //#region Statics:
-        public static getAllUsers(): Promise<any> {
-            return Database.Select<TUser>({
-                Fields:['id','username','email','firstName','lastName','birthday','registerDate','freeze','token'],
-                from:"users",
+        public static getAllUsers():Promise<User[]> {
+            return new Promise<User[]>((resolve,reject)=>{
+                let user :User[]= []
+                new Database().SelectSync<TUser>({
+                    Fields:['id','username','email','firstName','lastName','birthday','registerDate','freeze','token'],
+                    from:"users",
+                    where:"1=1"
+                }).ValidDB<UserModel[]>(data => {
+                    data.forEach(usr => user.push(new User(usr)));
+                    resolve(user)
+                })
+                .NoValidDB(err=>reject(err))     
             })
         }
+
         public static getAllUsersSync(): User[] {
             let user:User[] = [];
-            Database.SelectSync<TUser>({
+            new Database().SelectSync<TUser>({
                 Fields:['id','username','email','firstName','lastName','birthday','registerDate','freeze','token'],
                 from:"users",
             })
@@ -172,7 +180,7 @@ export default class User extends DB<TUser>{
 
         public static GetUserById(userID:number):User{
             let user:User = null;
-            Database.SelectSync<TUser>({
+            new Database().SelectSync<TUser>({
                 Fields:['id','username','email','firstName','lastName','birthday','registerDate','freeze','token'],
                 from:"users",
                 where : `id='${userID}'`
@@ -182,7 +190,7 @@ export default class User extends DB<TUser>{
         }
         public static GetUserByUsername(username:string):User{
             let user:User = null;
-            Database.SelectSync<TUser>({
+            new Database().SelectSync<TUser>({
                 Fields:['id','username','email','firstName','lastName','birthday','registerDate','freeze','token'],
                 from:"users",
                 where : `username='${username}'`
@@ -191,8 +199,9 @@ export default class User extends DB<TUser>{
             return user
         }
         public static GetUserByToken(token:string):User{
-            let user:User = null;
-            Database.SelectSync<TUser>({
+            let user:User = new User;
+            if(token.length <10) return user; 
+            new Database().SelectSync<TUser>({
                 Fields:['id','username','email','firstName','lastName','birthday','registerDate','freeze','token'],
                 from:"users",
                 where : `token='${token}'`

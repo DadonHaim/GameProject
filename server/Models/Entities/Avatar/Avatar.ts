@@ -1,19 +1,18 @@
-import DB           from "@Database/DB";
 import Database     from "@Database/Connection";
 import AvatarsModel from "@DbModels/AvatarsModel";
 import Inventory    from "./Inventory";
 import User         from "@Entities/User/User";
 
-export default class Avatar extends DB<TAvatars>{ 
+export default class Avatar extends Database<TAvatars>{ 
     //#region Fields
-        private name        :string;    //{get;}
-        private exp         :number;    //{get;}
-        private silver      :number;    //{get;}
-        private gold        :number;    //{get;}
-        private redPowder   :number;    //{get;}
-        private diamond     :number;    //{get;}
-        private createdDate :string;    //{get;}
-        private inventory   :Inventory; //לערוך
+        private name        :string     |null =null;    //{get;}
+        private exp         :number     |null =null;    //{get;}
+        private silver      :number     |null =null;    //{get;}
+        private gold        :number     |null =null;    //{get;}
+        private redPowder   :number     |null =null;    //{get;}
+        private diamond     :number     |null =null;    //{get;}
+        private createdDate :string     |null =null;    //{get;}
+        private inventory   :Inventory  |null =null; //לערוך
 
 
     //#endregion
@@ -89,7 +88,7 @@ export default class Avatar extends DB<TAvatars>{
     public static GetAvatarsByUserId(user:User):Avatar[]{
         let avatars:Avatar[] = [];
 
-        Database.SelectSync<TAvatars>({
+        new Database().SelectSync<TAvatars>({
             Fields  : ["id","name","userID","createdDate","exp","gold","silver","redPowder","diamond","freeze","magicID","missionID"],
             from    : "avatars",
             where   : `userID='${user.GetId()}'`

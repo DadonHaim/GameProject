@@ -20,7 +20,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Magic_1 = __importDefault(require("@Categories/Magic"));
 var Connection_1 = __importDefault(require("@Database/Connection"));
-var DB_1 = __importDefault(require("@Database/DB"));
 var attack_json_1 = __importDefault(require("@Database/JsonModels/attack.json"));
 var move_json_1 = __importDefault(require("@Database/JsonModels/move.json"));
 var price_json_1 = __importDefault(require("@Database/JsonModels/price.json"));
@@ -86,7 +85,7 @@ var Card = /** @class */ (function (_super) {
     };
     Card.GetCardById = function (cardID) {
         var card = null;
-        Connection_1.default.SelectSync({
+        new Connection_1.default().SelectSync({
             Fields: ["id", "name", "description", "freeze", "attack", "delay", "magicID", "move", "price", "type", "upgrade", "minAvatarLevel", "maxUpgrade", "maxUpgrade"],
             from: 'cards',
             where: "id = ".concat(cardID)
@@ -96,7 +95,7 @@ var Card = /** @class */ (function (_super) {
     };
     Card.GetCardByName = function (cardName) {
         var card = null;
-        Connection_1.default.SelectSync({
+        new Connection_1.default().SelectSync({
             Fields: ["id", "name", "description", "freeze", "attack", "delay", "magicID", "move", "price", "type", "upgrade", "minAvatarLevel", "maxUpgrade"],
             from: 'cards',
             where: "name = '".concat(cardName, "'")
@@ -111,7 +110,7 @@ var Card = /** @class */ (function (_super) {
             join: "avatars_cards",
             on: "avatars_cards.avatarID = ".concat(avatar.GetId()),
         };
-        return Connection_1.default.Select(query);
+        return new Connection_1.default().Select(query);
     };
     Card.GetCardsByAvatarSync = function (avatar) {
         var cards = [];
@@ -121,18 +120,18 @@ var Card = /** @class */ (function (_super) {
             join: "avatars_cards",
             on: "avatars_cards.avatarID = ".concat(avatar.GetId()),
         };
-        Connection_1.default.SelectSync(query).ValidDB(function (data) { return data.forEach(function (c) { return cards.push(new Card(c)); }); });
+        new Connection_1.default().SelectSync(query).ValidDB(function (data) { return data.forEach(function (c) { return cards.push(new Card(c)); }); });
         return cards;
     };
     Card.GetCardsByMinAvatarLeven = function (magic) {
-        return Connection_1.default.Select({
+        return new Connection_1.default().Select({
             Fields: ["id", "name", "description", "freeze", "attack", "delay", "magicID", "move", "price", "type", "upgrade", "minAvatarLevel", "maxUpgrade"],
             from: "cards",
             where: "magicID=".concat(magic.GetId())
         });
     };
     Card.GetCardsByMagic = function (magic) {
-        return Connection_1.default.Select({
+        return new Connection_1.default().Select({
             Fields: ["id", "name", "description", "freeze", "attack", "delay", "magicID", "move", "price", "type", "upgrade", "minAvatarLevel", "maxUpgrade"],
             from: "cards",
             where: "magicID=".concat(magic.GetId())
@@ -140,7 +139,7 @@ var Card = /** @class */ (function (_super) {
     };
     Card.GetCardsByMagicSync = function (magic) {
         var cards = [];
-        Connection_1.default.SelectSync({
+        new Connection_1.default().SelectSync({
             Fields: ["id", "name", "description", "freeze", "attack", "delay", "magicID", "move", "price", "type", "upgrade", "minAvatarLevel", "maxUpgrade"],
             from: "cards",
             where: "magicID=".concat(magic.GetId())
@@ -149,7 +148,7 @@ var Card = /** @class */ (function (_super) {
         return cards;
     };
     Card.GetCardsByType = function (type) {
-        return Connection_1.default.Select({
+        return new Connection_1.default().Select({
             Fields: ["id", "name", "description", "freeze", "attack", "delay", "magicID", "move", "price", "type", "upgrade", "minAvatarLevel", "maxUpgrade"],
             from: "cards",
             where: "type='".concat(type, "'")
@@ -157,7 +156,7 @@ var Card = /** @class */ (function (_super) {
     };
     Card.GetCardsByTypeSync = function (type) {
         var cards = [];
-        Connection_1.default.SelectSync({
+        new Connection_1.default().SelectSync({
             Fields: ["id", "name", "description", "freeze", "attack", "delay", "magicID", "move", "price", "type", "upgrade", "minAvatarLevel", "maxUpgrade"],
             from: "cards",
             where: "type='".concat(type, "'")
@@ -166,6 +165,6 @@ var Card = /** @class */ (function (_super) {
         return cards;
     };
     return Card;
-}(DB_1.default));
+}(Connection_1.default));
 exports.default = Card;
 //# sourceMappingURL=Card.js.map

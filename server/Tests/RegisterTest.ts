@@ -4,45 +4,52 @@ import Test, { NoValid, Valid } from "./Test";
 let user:User;
 
 let T1 = new Test({
-    name:"test1",
+    name:"בדיקת הרשמה למשחק",
     description:"",
     options:IRegisterTest
 })
 .AllNull((data,msg)=>{
     user = new User().Register(data);
     user.IsExist()? NoValid(msg): Valid(msg);
-    user.Delete();
+    user.DeleteDB();
 })
 .AllRequireNull(((data,msg)=>{
     user = new User().Register(data);
     user.IsExist()?  NoValid(msg): Valid(msg);
-    user.Delete();
+    user.DeleteDB();
 }))
 .AllOptinalNull(((data,msg)=>{
     user = new User().Register(data);
     user.IsExist()? Valid(msg) : NoValid(msg)
-    user.Delete()
+    user.DeleteDB()
 }))
 
-.LenMin("username",(data,msg)=>{
-    user = new User().Register(data);
-    user.IsExist()?  NoValid(msg): Valid(msg);
-    user.Delete();
-})
-.LenMax("username",(data,msg)=>{
-    user = new User().Register(data);
-    user.IsExist()?  NoValid(msg): Valid(msg);
-    user.Delete();
-})
-
-for(let key in T1.options){
-    if(!T1.options[key].require) continue;
-    T1.Exist(key,(data,msg)=>{
+for(let k in T1.options){
+    T1.LenMin(k,(data,msg)=>{
         user = new User().Register(data);
         user.IsExist()?  NoValid(msg): Valid(msg);
-        user.Delete();
+        user.DeleteDB();
+    })
+    T1.LenMax(k,(data,msg)=>{
+        user = new User().Register(data);
+        user.IsExist()?  NoValid(msg): Valid(msg);
+        user.DeleteDB();
     })
 }
+
+T1.Exist("username",(data,msg)=>{
+    user = new User().Register(data);
+    user.IsExist()?  NoValid(msg): Valid(msg);
+    user.DeleteDB();
+})
+
+.Exist("email",(data,msg)=>{
+    user = new User().Register(data);
+    user.IsExist()?  NoValid(msg): Valid(msg);
+    user.DeleteDB();
+})
+
+
 
 
 

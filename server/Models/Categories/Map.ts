@@ -1,9 +1,8 @@
 import Database from "@Database/Connection";
-import DB               from "@Database/DB";
 import LabyrinthsModel  from "@Database/DbModels/LabyrinthsModel";
 import MapsModel        from "@Database/DbModels/MapsModel";
 
-export default class Map extends DB<TMaps>{
+export default class Map extends Database<TMaps>{
 
     private name        :string ;
     private description :string ;
@@ -34,7 +33,7 @@ export default class Map extends DB<TMaps>{
 
     public static GetMapById(mapID:number):Map{
         let map :Map;
-        Database.QuerySync(`select id,name,description,freeze from maps where id=${mapID}`)
+        new Database().QuerySync(`select id,name,description,freeze from maps where id=${mapID}`)
         .ValidDB<MapsModel[]>(data=>{
             map = new Map(data[0])
         })
@@ -42,7 +41,7 @@ export default class Map extends DB<TMaps>{
     }
     public static GetMapByName(mapName:string):Map{
         let map :Map;
-        Database.QuerySync(`select id,name,description,freeze from maps where name=${mapName}`)
+        new Database().QuerySync(`select id,name,description,freeze from maps where name=${mapName}`)
         .ValidDB<MapsModel[]>(data=>{
             map = new Map(data[0])
         })
@@ -50,7 +49,7 @@ export default class Map extends DB<TMaps>{
     }
     public static GetAllMaps():Map[]{
         let map :Map[] = [];
-        Database.QuerySync(`select id,name,description,freeze from maps`)
+        new Database().QuerySync(`select id,name,description,freeze from maps`)
         .ValidDB<MapsModel[]>(data=>{
             data.forEach(m => map.push(new Map(m)))
         })

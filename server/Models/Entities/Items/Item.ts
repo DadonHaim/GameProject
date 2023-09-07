@@ -1,4 +1,3 @@
-import DB               from "@Database/DB";
 import Database         from "@Database/Connection";
 import Price            from "@JsonModels/price.json";
 import sale             from "@JsonModels/sale.json";
@@ -6,23 +5,24 @@ import UpgradeItems     from "@JsonModels/upgradeItems.json";
 import ItemsModel       from "@DbModels/ItemsModel";
 import Avatar           from "@Entities/Avatar/Avatar";
 import Magic            from "@Categories/Magic";
+import AvatarsModel from "@Database/DbModels/AvatarsModel";
+import Card from "@Entities/Card/Card";
 
-export default class Item extends DB<TItems>{
+export default class Item extends Database<TItems>{
     
     //#region Fields
-        private name            : string;         //{get; set;}        
-        private description     : string;         //{get; set;}        
-        private freeze          : boolean;        //{get;}        
-        private price           : Price;          //{get; set;}        
-        private color           : string;         //{get; set;}        
-        private sale            : sale;           //{get; set;}        
-        private upgrade         : UpgradeItems;   //{get; set;}                
-        private categoryItem    : string;         //{get;}        
-        private rank            : number;         
-        private minAvatarLevel  :number;
-        private maxUpgrade      :number;
-        
-    //#endregion
+        private name            : string        |null  = null;   
+        private description     : string        |null  = null;   
+        private freeze          : boolean       |null  = null;   
+        private price           : Price         |null  = null;   
+        private color           : string        |null  = null;   
+        private sale            : sale          |null  = null;   
+        private upgrade         : UpgradeItems  |null  = null;   
+        private categoryItem    : string        |null  = null;   
+        private rank            : number        |null  = null;   
+        private minAvatarLevel  : number        |null  = null;       
+        private maxUpgrade      : number        |null  = null;       
+      //#endregion
     
     //#region Flags
         private isExist  :boolean = false;
@@ -54,17 +54,18 @@ export default class Item extends DB<TItems>{
         public IsActive           = ():boolean      => this.isActive        ;
     //#endregion
 
-    //#region Sets
-
-    //#endregion
 
     //#region Method
 
     public RankUp(num:number = 1){
-        if(!this.avatar || !this.id) return;
-        if(this.rank<this.maxUpgrade){
+        if(!this.avatar||!this.id) return;
+        if(this.rank < this.maxUpgrade){
             this.rank +=num;
-            this.Query(`Update avatars_items Set rank=${this.rank} Where itemID=${this.id} and avatarID=${this.avatar.GetId()}`);
+            this.Update<AvatarsItemsModel>({
+                update:{rank:this.rank},
+                from:"avatars_items",
+                where:`itemID=${this.id} and avatarID=${this.avatar.GetId()}`
+            })
         }
     }
 
@@ -91,7 +92,7 @@ export default class Item extends DB<TItems>{
                 this.SelectSync<TAvatarsItems>({
                     Fields : ["rank","active"],
                     from   : "avatars_items",
-                    where  : `cardID = ${this.id} and avatarID=${avatar.GetId()}`
+                    where  : `itemID = ${this.id} and avatarID=${avatar.GetId()}`
                 })
                 .ValidDB(data=>{
                     this.avatar   = avatar;
@@ -105,134 +106,121 @@ export default class Item extends DB<TItems>{
     //#endregion
 
     //#region statics
-        public static getAllItemsByAvatar(avatar:Avatar) : Item[]{
-            let items : Item[] = [];
-            Database.SelectSync<TItems>({
-                Fields : ["id","name","description","freeze","price","color","sale","upgrade","categoryItem","minAvatarLevel","maxUpgrade"],
-                And    : ["active"],
-                from   : "items",
-                where  : `id = ${avatar.GetId()}`,
-                join   : "avatars_items",
-                on     : `avatars_items.avatarID = ${avatar.GetId()} and avatars_items.itemID = items.id`
+        public static getAllItemsByAvatar(avatar:Avatar) : Promise<Item[]>{
+            return new Promise((resolve,reject)=>{
+                let items : Item[] = [];
+                new Database().SelectSync<TItems>({
+                    Fields : ["id","name","description","freeze","price","color","sale","upgrade","categoryItem","minAvatarLevel","maxUpgrade"],
+                    And    : ["active"],
+                    from   : "items",
+                    where  : `id = ${avatar.GetId()}`,
+                    join   : "avatars_items",
+                    on     : `avatars_items.avatarID = ${avatar.GetId()} and avatars_items.itemID = items.id`
+                })
+                .ValidDB<ItemsModel[]>(data=>{
+                    data.forEach(item =>items.push(new Item(item)));
+                    resolve(items)
+                })
+            })
+        }
+        public static GetItemById(itemID:number):Item{
+            let item: Item = null;
+            new Database().SelectSync<TItems>({
+                Fields:["id","name","description","freeze","price","color","sale","upgrade","categoryItem","minAvatarLevel","maxUpgrade"],
+                from: 'items',
+                where :`id = ${itemID}`
+            })
+            .ValidDB<ItemsModel[]>(data => item = new Item(data[0]))
+            return item;
+        }
+        public static GetItemByName(itemName:string):Item{
+            let item: Item = null;
+            new Database().SelectSync<TItems>({
+                Fields:["id","name","description","freeze","price","color","sale","upgrade","categoryItem","minAvatarLevel","maxUpgrade"],
+                from: 'items',
+                where :`name = ${itemName}`
+            })
+            .ValidDB<ItemsModel[]>(data => item = new Item(data[0]))
+            return item;
+        }
+        public static GetItemsByAvatar(avatar:Avatar):Promise<Item[]>{
+            return new Promise((resolve,reject)=>{
+                let items :Item[] =[];
+                new Database().SelectSync<TItems>({ 
+                    Fields:["id","name","description","freeze","price","color","sale","upgrade","categoryItem","minAvatarLevel","maxUpgrade"],
+                    from:"items",
+                    join:"avatars_items",
+                    on: `avatar_items.avatarID = ${avatar.GetId()}`,
+                }).ValidDB<ItemsModel[]>(data=>{
+                    data.forEach(item=> items.push(new Item(item)))
+                    resolve(items)
+                })
+            })
+        }
+        public static GetItemsByAvatarSync(avatar:Avatar):Item[]{
+            let items :Item[] = [];
+            new Database().SelectSync<TItems>({
+                Fields:["id","name","description","freeze","price","color","sale","upgrade","categoryItem","minAvatarLevel","maxUpgrade"],
+                from:"items",
+                join:"avatars_items",
+                on: `avatar_items.avatarID = ${avatar.GetId()}`,
             })
             .ValidDB<ItemsModel[]>(data=>{
-                data.forEach(item =>items.push(new Item(item)))
+                data.forEach(i => items.push(new Item(i)))
             })
             return items;
         }
-    //#endregion
-
-
-    public static GetItemById(itemID:number):Item{
-        let item: Item = null;
-        Database.SelectSync<TItems>({
-            Fields:["id","name","description","freeze","price","color","sale","upgrade","categoryItem","minAvatarLevel","maxUpgrade"],
-            from: 'items',
-            where :`id = ${itemID}`
-        })
-        .ValidDB<ItemsModel[]>(data => item = new Item(data[0]))
-        return item;
-    }
-
-    public static GetItemByName(itemName:string):Item{
-        let item: Item = null;
-        Database.SelectSync<TItems>({
-            Fields:["id","name","description","freeze","price","color","sale","upgrade","categoryItem","minAvatarLevel","maxUpgrade"],
-            from: 'items',
-            where :`name = ${itemName}`
-        })
-        .ValidDB<ItemsModel[]>(data => item = new Item(data[0]))
-        return item;
-    }
-  
-
-
-
-
-
-    public static GetItemsByAvatar(avatar:Avatar):Promise<any>{
-        return Database.Select<TItems>({
-            Fields:["id","name","description","freeze","price","color","sale","upgrade","categoryItem","minAvatarLevel","maxUpgrade"],
-            from:"items",
-            join:"avatars_items",
-            on: `avatar_items.avatarID = ${avatar.GetId()}`,
-        })
-    }
-
-    public static GetItemsByAvatarSync(avatar:Avatar):Item[]{
-        let items :Item[] = [];
-        Database.SelectSync<TItems>({
-            Fields:["id","name","description","freeze","price","color","sale","upgrade","categoryItem","minAvatarLevel","maxUpgrade"],
-            from:"items",
-            join:"avatars_items",
-            on: `avatar_items.avatarID = ${avatar.GetId()}`,
-        })
-        .ValidDB<ItemsModel[]>(data=>{
-            data.forEach(i => items.push(new Item(i)))
-        })
-        return items;
-    }
-
-    public static GetCardsByMinAvatarLeven(minLeven:number):Promise<any>{
-        return Database.Select<TItems>({
-            Fields:["id","name","description","freeze","price","color","sale","upgrade","categoryItem","minAvatarLevel","maxUpgrade"],
-            from:"items",
-            join:"avatars_items",
-            on: `avatar_items.minAvatarLevel= ${minLeven}`,
-        })
-    }
-
-    public static GetCardsByMinAvatarLevenSync(minLeven:number):Item[]{
-        let items :Item[] = [];
-        Database.SelectSync<TItems>({
-            Fields:["id","name","description","freeze","price","color","sale","upgrade","categoryItem","minAvatarLevel","maxUpgrade"],
-            from:"items",
-            join:"avatars_items",
-            on: `avatar_items.minAvatarLevel= ${minLeven}`,
-        })
-        .ValidDB<ItemsModel[]>(data=>{
-            data.forEach(i => items.push(new Item(i)))
-        })
-        return items;
-    }
-
-    public static GetItemsByMagic(magic:Magic):Promise<any>{
-        return Database.Select<TItems>({
-            Fields:["id","name","description","freeze","price","color","sale","upgrade","categoryItem","minAvatarLevel","maxUpgrade"],
-            from:"items",
-            where:`magicID=${magic.GetId()}`
-        })
-    }
-    public static GetItemsByMagicSync(magic:Magic):Item[]{
-        let items :Item[] = [];
-        Database.SelectSync<TItems>({
-            Fields:["id","name","description","freeze","price","color","sale","upgrade","categoryItem","minAvatarLevel","maxUpgrade"],
-            from:"items",
-            where:`magicID=${magic.GetId()}`
-        })
-        .ValidDB<ItemsModel[]>(data=>{
-            data.forEach(i => items.push(new Item(i)))
-        })
-        return items;
-    }
-
-    public static GetItemsByType(type:string):Promise<any>{
-        return Database.Select<TItems>({
-            Fields:["id","name","description","freeze","price","color","sale","upgrade","categoryItem","minAvatarLevel","maxUpgrade"],
-            from:"items",
-            where:`type=${type}`
-        })
-    }
-    public static GetItemsByTypeSync(type:string):Item[]{
-        let items :Item[] = [];
-        Database.SelectSync<TItems>({
-            Fields:["id","name","description","freeze","price","color","sale","upgrade","categoryItem","minAvatarLevel","maxUpgrade"],
-            from:"items",
-            where:`type=${type}`
-        })
-        .ValidDB<ItemsModel[]>(data=>{
-            data.forEach(i => items.push(new Item(i)))
-        })
-        return items;
-    }
+        public static GetItemsByMagic(magic:Magic):Promise<Item[]>{
+            return new Promise((resolve,reject)=>{
+                let items :Item[] = [];
+                new Database().SelectSync<TItems>({
+                    Fields:["id","name","description","freeze","price","color","sale","upgrade","categoryItem","minAvatarLevel","maxUpgrade"],
+                    from:"items",
+                    where:`magicID=${magic.GetId()}`
+                })
+                .ValidDB<ItemsModel[]>(data=>{
+                    data.forEach(i => items.push(new Item(i)))
+                    resolve(items)
+                })
+            })
+        }
+        public static GetItemsByMagicSync(magic:Magic):Item[]{
+            let items :Item[] = [];
+            new Database().SelectSync<TItems>({
+                Fields:["id","name","description","freeze","price","color","sale","upgrade","categoryItem","minAvatarLevel","maxUpgrade"],
+                from:"items",
+                where:`magicID=${magic.GetId()}`
+            })
+            .ValidDB<ItemsModel[]>(data=>{
+                data.forEach(i => items.push(new Item(i)))
+            })
+            return items;
+        }
+        public static GetItemsByType(type:string):Promise<Item[]>{
+            return new Promise((resolve,reject)=>{
+                let items :Item[] = [];
+                new Database().SelectSync<TItems>({
+                    Fields:["id","name","description","freeze","price","color","sale","upgrade","categoryItem","minAvatarLevel","maxUpgrade"],
+                    from:"items",
+                    where:`type=${type}`
+                })
+                .ValidDB<ItemsModel[]>(data=>{
+                    data.forEach(i => items.push(new Item(i)))
+                    resolve(items)
+                })
+            })
+        }
+        public static GetItemsByTypeSync(type:string):Item[]{
+            let items :Item[] = [];
+            new Database().SelectSync<TItems>({
+                Fields:["id","name","description","freeze","price","color","sale","upgrade","categoryItem","minAvatarLevel","maxUpgrade"],
+                from:"items",
+                where:`type=${type}`
+            })
+            .ValidDB<ItemsModel[]>(data=>{
+                data.forEach(i => items.push(new Item(i)))
+            })
+            return items;
+        }
+     //#endregion
 }

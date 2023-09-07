@@ -16,14 +16,16 @@ export default function RegisterValidation(obj:IRegister){
         if(obj.username.length < setting.username.min)                                  message.push("שם המשתמש קצר מדי")
         if(obj.password.length < setting.password.min)                                  message.push("הסיסמה קצרה מדי")
         if(obj.password.length >setting.password.max)                                   message.push("הסיסמה ארוכה מדי")
-        if(obj.firstName.length>1 && obj.firstName.length<setting.firstName.min)        message.push("שם פרטי קצר  מדי")
+        if(obj.email.length < setting.email.min)                                        message.push("האימל קצר מדי")
+        if(obj.email.length >setting.email.max)                                         message.push("האימל ארוך מדי")
+        if(obj.firstName.length<setting.firstName.min)                                  message.push("שם פרטי קצר  מדי")
         if(obj.firstName.length >setting.firstName.max)                                 message.push("שם פרטי ארוך  מדי")
-        if(obj.lastName.length >1 && obj.lastName.length <setting.lastName.min)         message.push("שם משפחה קצר  מדי")
+        if(obj.lastName.length <setting.lastName.min)                                   message.push("שם משפחה קצר  מדי")
         if(obj.lastName.length >setting.lastName.max)                                   message.push("שם משפחה ארוך  מדי")
     }
 
 
-    Database.QuerySync(`Select username,email from users where username = '${obj.username}'or email='${obj.email}'`)
+    new Database().QuerySync(`Select username,email from users where username = '${obj.username}'or email='${obj.email}'`)
     .ValidDB(data=>{
         if(data[0].username == obj.username)
             message.push("שם המשתמש כבר קיים")

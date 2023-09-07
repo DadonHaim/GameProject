@@ -18,7 +18,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var DB_1 = __importDefault(require("@Database/DB"));
 var Connection_1 = __importDefault(require("@Database/Connection"));
 var Magic = /** @class */ (function (_super) {
     __extends(Magic, _super);
@@ -42,54 +41,54 @@ var Magic = /** @class */ (function (_super) {
     Magic.prototype.GetAllItems = function (sync) {
         var query = "Select * from items where magicID=".concat(this.id);
         if (sync)
-            return Connection_1.default.QuerySync(query);
-        return Connection_1.default.Query(query);
+            return new Connection_1.default().QuerySync(query);
+        return new Connection_1.default().Query(query);
     };
     Magic.prototype.GetAllCards = function (sync) {
         var query = "Select * from cards where magicID=".concat(this.id);
         if (sync)
-            return Connection_1.default.QuerySync(query);
-        return Connection_1.default.Query(query);
+            return new Connection_1.default().QuerySync(query);
+        return new Connection_1.default().Query(query);
     };
     Magic.prototype.GetAllAvatars = function (sync) {
         var query = "Select * from avatars where magicID=".concat(this.id);
         if (sync)
-            return Connection_1.default.QuerySync(query);
-        return Connection_1.default.Query(query);
+            return new Connection_1.default().QuerySync(query);
+        return new Connection_1.default().Query(query);
     };
     Magic.prototype.GetAllMissions = function (sync) {
         var query = "Select * from missions where magicID=".concat(this.id);
         if (sync)
-            return Connection_1.default.QuerySync(query);
-        return Connection_1.default.Query(query);
+            return new Connection_1.default().QuerySync(query);
+        return new Connection_1.default().Query(query);
     };
     Magic.prototype.GetAllItemsLite = function (sync) {
         var query = "Select id,name,description from items where magicID=".concat(this.id);
         if (sync)
-            return Connection_1.default.QuerySync(query);
-        return Connection_1.default.Query(query);
+            return new Connection_1.default().QuerySync(query);
+        return new Connection_1.default().Query(query);
     };
     Magic.prototype.GetAllCardsLite = function (sync) {
         var query = "Select * from cards where magicID=".concat(this.id);
         if (sync)
-            return Connection_1.default.QuerySync(query);
-        return Connection_1.default.Query(query);
+            return new Connection_1.default().QuerySync(query);
+        return new Connection_1.default().Query(query);
     };
     Magic.prototype.GetAllAvatarsLite = function (sync) {
         var query = "Select * from avatars where magicID=".concat(this.id);
         if (sync)
-            return Connection_1.default.QuerySync(query);
-        return Connection_1.default.Query(query);
+            return new Connection_1.default().QuerySync(query);
+        return new Connection_1.default().Query(query);
     };
     Magic.prototype.GetAllMissionsLite = function (sync) {
         var query = "Select * from missions where magicID=".concat(this.id);
         if (sync)
-            return Connection_1.default.QuerySync(query);
-        return Connection_1.default.Query(query);
+            return new Connection_1.default().QuerySync(query);
+        return new Connection_1.default().Query(query);
     };
     Magic.GetMagicById = function (magicId) {
         var magic = null;
-        Connection_1.default.SelectSync({
+        new Connection_1.default().SelectSync({
             Fields: ["id", "name", "description", "freeze"],
             from: 'magics',
             where: "id = ".concat(magicId)
@@ -99,7 +98,7 @@ var Magic = /** @class */ (function (_super) {
     };
     Magic.GetMagicByName = function (magicName) {
         var magic = null;
-        Connection_1.default.SelectSync({
+        new Connection_1.default().SelectSync({
             Fields: ["id", "name", "description", "freeze"],
             from: 'magics',
             where: "name = '".concat(magicName, "'")
@@ -109,7 +108,7 @@ var Magic = /** @class */ (function (_super) {
     };
     Magic.GetListMagics = function () {
         var magics = [];
-        Connection_1.default.SelectSync({
+        new Connection_1.default().SelectSync({
             Fields: ["id", "name", "description", "freeze"],
             from: 'magics'
         })
@@ -126,6 +125,6 @@ var Magic = /** @class */ (function (_super) {
         });
     };
     return Magic;
-}(DB_1.default));
+}(Connection_1.default));
 exports.default = Magic;
 //# sourceMappingURL=Magic.js.map

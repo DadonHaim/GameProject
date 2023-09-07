@@ -18,7 +18,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var DB_1 = __importDefault(require("@Database/DB"));
 var Connection_1 = __importDefault(require("@Database/Connection"));
 var Inventory_1 = __importDefault(require("./Inventory"));
 var Avatar = /** @class */ (function (_super) {
@@ -81,7 +80,7 @@ var Avatar = /** @class */ (function (_super) {
     //#region statics
     Avatar.GetAvatarsByUserId = function (user) {
         var avatars = [];
-        Connection_1.default.SelectSync({
+        new Connection_1.default().SelectSync({
             Fields: ["id", "name", "userID", "createdDate", "exp", "gold", "silver", "redPowder", "diamond", "freeze", "magicID", "missionID"],
             from: "avatars",
             where: "userID='".concat(user.GetId(), "'")
@@ -95,6 +94,6 @@ var Avatar = /** @class */ (function (_super) {
         return avatars;
     };
     return Avatar;
-}(DB_1.default));
+}(Connection_1.default));
 exports.default = Avatar;
 //# sourceMappingURL=Avatar.js.map

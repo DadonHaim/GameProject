@@ -1,7 +1,7 @@
 class AvatarsItemsModel{
     public id?              :number;
     public active?          :boolean;
-    public level?           :number;
+    public rank?            :number;
     public avatarID?        :number;
     public itemID?          :number;
 }

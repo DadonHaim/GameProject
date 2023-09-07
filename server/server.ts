@@ -6,6 +6,8 @@ import http             from 'http';
 import Test from './Tests/Test';
 import User from '@Entities/User/User';
 import { IRegisterTest } from './Settings/IRegisterSettings';
+import Database from '@Database/Connection';
+import UserModel from '@Database/DbModels/UserModel';
 
 
 
@@ -14,13 +16,11 @@ import { IRegisterTest } from './Settings/IRegisterSettings';
 const app = express();
 const server = http.createServer(app);
 
-
-
-
-
-    
-
-
+User.getAllUsers().then(data=>{
+    console.dir(data)
+}).catch(err=>{
+    console.log(err)
+})
 
 
 server.listen(3001,()=>{

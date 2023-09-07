@@ -14,8 +14,8 @@ exports.IRegisterSettings = {
 };
 exports.IRegisterTest = {
     username: { unique: true, require: true, min: exports.IRegisterSettings.username.min, max: exports.IRegisterSettings.username.max, value: "Test" + (0, randomString_1.default)(6) },
-    password: { unique: false, require: true, min: exports.IRegisterSettings.email.min, max: exports.IRegisterSettings.email.max, value: "Test" + (0, randomString_1.default)(6) },
-    email: { unique: true, require: true, min: exports.IRegisterSettings.password.min, max: exports.IRegisterSettings.password.max, value: "Test" + (0, randomString_1.default)(6) },
+    password: { unique: false, require: true, min: exports.IRegisterSettings.password.min, max: exports.IRegisterSettings.password.max, value: "Test" + (0, randomString_1.default)(6) },
+    email: { unique: true, require: true, min: exports.IRegisterSettings.email.min, max: exports.IRegisterSettings.email.max, value: "Test" + (0, randomString_1.default)(6) },
     firstName: { unique: false, require: true, min: exports.IRegisterSettings.firstName.min, max: exports.IRegisterSettings.firstName.max, value: "Test" + (0, randomString_1.default)(6) },
     lastName: { unique: false, require: true, min: exports.IRegisterSettings.lastName.min, max: exports.IRegisterSettings.lastName.max, value: "Test" + (0, randomString_1.default)(6) }
 };

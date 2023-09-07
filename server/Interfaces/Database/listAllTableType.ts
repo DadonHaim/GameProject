@@ -15,7 +15,8 @@ type listAllTableType =
     "avatars_items"      |  
     "avatars_cards"      |  
     "avatars_monsters"   |  
-    "avatars_labyrinths" ;
+    "avatars_labyrinths" |
+    "none" ;
 
 //   DROP TABLE users             
 //   DROP TABLE global_settings   

@@ -23,16 +23,20 @@ function RegisterValidation(obj) {
             message.push("הסיסמה קצרה מדי");
         if (obj.password.length > IRegisterSettings_1.IRegisterSettings.password.max)
             message.push("הסיסמה ארוכה מדי");
-        if (obj.firstName.length > 1 && obj.firstName.length < IRegisterSettings_1.IRegisterSettings.firstName.min)
+        if (obj.email.length < IRegisterSettings_1.IRegisterSettings.email.min)
+            message.push("האימל קצר מדי");
+        if (obj.email.length > IRegisterSettings_1.IRegisterSettings.email.max)
+            message.push("האימל ארוך מדי");
+        if (obj.firstName.length < IRegisterSettings_1.IRegisterSettings.firstName.min)
             message.push("שם פרטי קצר  מדי");
         if (obj.firstName.length > IRegisterSettings_1.IRegisterSettings.firstName.max)
             message.push("שם פרטי ארוך  מדי");
-        if (obj.lastName.length > 1 && obj.lastName.length < IRegisterSettings_1.IRegisterSettings.lastName.min)
+        if (obj.lastName.length < IRegisterSettings_1.IRegisterSettings.lastName.min)
             message.push("שם משפחה קצר  מדי");
         if (obj.lastName.length > IRegisterSettings_1.IRegisterSettings.lastName.max)
             message.push("שם משפחה ארוך  מדי");
     }
-    Connection_1.default.QuerySync("Select username,email from users where username = '".concat(obj.username, "'or email='").concat(obj.email, "'"))
+    new Connection_1.default().QuerySync("Select username,email from users where username = '".concat(obj.username, "'or email='").concat(obj.email, "'"))
         .ValidDB(function (data) {
         if (data[0].username == obj.username)
             message.push("שם המשתמש כבר קיים");

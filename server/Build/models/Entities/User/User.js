@@ -19,7 +19,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var randomString_1 = __importDefault(require("@Functions/randomString"));
-var DB_1 = __importDefault(require("@Database/DB"));
 var Connection_1 = __importDefault(require("@Database/Connection"));
 var Avatar_1 = __importDefault(require("@Entities/Avatar/Avatar"));
 var registerValidation_1 = __importDefault(require("@Validations/registerValidation"));
@@ -30,6 +29,16 @@ var User = /** @class */ (function (_super) {
     //#region Method
     function User(obj) {
         var _this = _super.call(this, { tableName: "users" }) || this;
+        // #region Fields                              
+        _this.username = null; //{get;}                       
+        _this.email = null; //{get; set;}                   
+        _this.firstName = null; //{get; set;}                       
+        _this.lastName = null; //{get; set;}                       
+        _this.birthday = null; //{get; set;}                       
+        _this.registerDate = null; //{get;}                           
+        _this.banned = null; //{get;}                   
+        _this.freeze = null; //{get;}                   
+        _this.token = null; //{get;}            
         //#endregion 
         //#region Flags:
         _this.isExist = false; //{get;}         
@@ -62,6 +71,7 @@ var User = /** @class */ (function (_super) {
         _this.fillFields = function (data) { for (var key in data)
             _this[key] = data[key]; };
         if (obj) {
+            _this.id = (obj.id) ? obj.id : null;
             _this.id = (obj.id) ? obj.id : null;
             _this.username = (obj.username) ? obj.username : null;
             _this.email = (obj.email) ? obj.email : null;
@@ -123,44 +133,51 @@ var User = /** @class */ (function (_super) {
         });
         return this;
     };
-    User.prototype.Delete = function () {
-        Connection_1.default.QuerySync("Delete from users where username='".concat(this.username, "'"));
+    User.prototype.DeleteDB = function () {
+        this.DeleteSync({ where: "username='".concat(this.username, "'") });
         this.isExist = false;
     };
     User.prototype.createToken = function () {
         if (!this.IsLogin())
             return;
         var token = (0, randomString_1.default)(40);
-        this.QuerySync("Update users Set token='".concat(token, "' Where id=").concat(this.id));
+        this.UpdateSync({ update: { token: token } });
         this.token = token;
     };
     User.prototype.removeToken = function () {
         if (!this.IsExist())
             return;
-        this.QuerySync("Update users Set token='' Where id=".concat(this.id));
+        this.UpdateSync({ update: { token: '' } });
         this.token = null;
     };
-    User.prototype.UpdateActiveAvatar = function (avatarRef) {
-        if (avatarRef == null) {
+    User.prototype.UpdateActiveAvatar = function (avatar) {
+        if (!avatar) {
             this.isSelectedAvatar = false;
             this.activeAvatar = null;
             return;
         }
-        this.activeAvatar = this.avatars.find(function (avatar) { return avatar.GetId() == avatarRef.GetId(); });
-        if (this.activeAvatar)
-            this.isSelectedAvatar = true;
+        this.activeAvatar = this.avatars.find(function (a) { return a.GetId() == avatar.GetId(); });
+        this.isSelectedAvatar = this.activeAvatar ? true : false;
     };
     //#endregion
     //#region Statics:
     User.getAllUsers = function () {
-        return Connection_1.default.Select({
-            Fields: ['id', 'username', 'email', 'firstName', 'lastName', 'birthday', 'registerDate', 'freeze', 'token'],
-            from: "users",
+        return new Promise(function (resolve, reject) {
+            var user = [];
+            new Connection_1.default().SelectSync({
+                Fields: ['id', 'username', 'email', 'firstName', 'lastName', 'birthday', 'registerDate', 'freeze', 'token'],
+                from: "users",
+                where: "1=1"
+            }).ValidDB(function (data) {
+                data.forEach(function (usr) { return user.push(new User(usr)); });
+                resolve(user);
+            })
+                .NoValidDB(function (err) { return reject(err); });
         });
     };
     User.getAllUsersSync = function () {
         var user = [];
-        Connection_1.default.SelectSync({
+        new Connection_1.default().SelectSync({
             Fields: ['id', 'username', 'email', 'firstName', 'lastName', 'birthday', 'registerDate', 'freeze', 'token'],
             from: "users",
         })
@@ -169,7 +186,7 @@ var User = /** @class */ (function (_super) {
     };
     User.GetUserById = function (userID) {
         var user = null;
-        Connection_1.default.SelectSync({
+        new Connection_1.default().SelectSync({
             Fields: ['id', 'username', 'email', 'firstName', 'lastName', 'birthday', 'registerDate', 'freeze', 'token'],
             from: "users",
             where: "id='".concat(userID, "'")
@@ -179,7 +196,7 @@ var User = /** @class */ (function (_super) {
     };
     User.GetUserByUsername = function (username) {
         var user = null;
-        Connection_1.default.SelectSync({
+        new Connection_1.default().SelectSync({
             Fields: ['id', 'username', 'email', 'firstName', 'lastName', 'birthday', 'registerDate', 'freeze', 'token'],
             from: "users",
             where: "username='".concat(username, "'")
@@ -188,8 +205,10 @@ var User = /** @class */ (function (_super) {
         return user;
     };
     User.GetUserByToken = function (token) {
-        var user = null;
-        Connection_1.default.SelectSync({
+        var user = new User;
+        if (token.length < 10)
+            return user;
+        new Connection_1.default().SelectSync({
             Fields: ['id', 'username', 'email', 'firstName', 'lastName', 'birthday', 'registerDate', 'freeze', 'token'],
             from: "users",
             where: "token='".concat(token, "'")
@@ -198,6 +217,6 @@ var User = /** @class */ (function (_super) {
         return user;
     };
     return User;
-}(DB_1.default));
+}(Connection_1.default));
 exports.default = User;
 //# sourceMappingURL=User.js.map

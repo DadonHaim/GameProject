@@ -18,9 +18,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var DB_1 = __importDefault(require("@Database/DB"));
 var CategoriesItemsModel_1 = __importDefault(require("@Database/DbModels/CategoriesItemsModel"));
 var Item_1 = __importDefault(require("@Entities/Items/Item"));
+var Connection_1 = __importDefault(require("@Database/Connection"));
 var Inventory = /** @class */ (function (_super) {
     __extends(Inventory, _super);
     function Inventory(avatar) {
@@ -47,6 +47,6 @@ var Inventory = /** @class */ (function (_super) {
         this.Query("Update avatars_items Set active=1 Where itemID=".concat(obj.item.GetId(), " and avatarID = ").concat(this.avatar.GetId()));
     };
     return Inventory;
-}(DB_1.default));
+}(Connection_1.default));
 exports.default = Inventory;
 //# sourceMappingURL=Inventory.js.map

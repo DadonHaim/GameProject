@@ -24,7 +24,9 @@
   },
   "scripts": {
     "start": "nodemon Build/server.js ",
-    "test": " node Build/test.js"
+    "test": " node Build/test.js",
+    "DebugTest" :"node Build/test.js",
+    "Debug" :"node Build/server.js"
   },
   "_moduleAliases": {
     "@Root": "./Build",

@@ -19,7 +19,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Connection_1 = __importDefault(require("@Database/Connection"));
-var DB_1 = __importDefault(require("@Database/DB"));
 var Map = /** @class */ (function (_super) {
     __extends(Map, _super);
     function Map(obj) {
@@ -42,7 +41,7 @@ var Map = /** @class */ (function (_super) {
     };
     Map.GetMapById = function (mapID) {
         var map;
-        Connection_1.default.QuerySync("select id,name,description,freeze from maps where id=".concat(mapID))
+        new Connection_1.default().QuerySync("select id,name,description,freeze from maps where id=".concat(mapID))
             .ValidDB(function (data) {
             map = new Map(data[0]);
         });
@@ -50,7 +49,7 @@ var Map = /** @class */ (function (_super) {
     };
     Map.GetMapByName = function (mapName) {
         var map;
-        Connection_1.default.QuerySync("select id,name,description,freeze from maps where name=".concat(mapName))
+        new Connection_1.default().QuerySync("select id,name,description,freeze from maps where name=".concat(mapName))
             .ValidDB(function (data) {
             map = new Map(data[0]);
         });
@@ -58,13 +57,13 @@ var Map = /** @class */ (function (_super) {
     };
     Map.GetAllMaps = function () {
         var map = [];
-        Connection_1.default.QuerySync("select id,name,description,freeze from maps")
+        new Connection_1.default().QuerySync("select id,name,description,freeze from maps")
             .ValidDB(function (data) {
             data.forEach(function (m) { return map.push(new Map(m)); });
         });
         return map;
     };
     return Map;
-}(DB_1.default));
+}(Connection_1.default));
 exports.default = Map;
 //# sourceMappingURL=Map.js.map

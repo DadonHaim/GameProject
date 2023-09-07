@@ -6,5 +6,7 @@ Test.DeleteTestDB();
 Test.CreateTestDB();
 
 require("@Tests/RegisterTest")
+require("@Tests/ILoginTest")
+
 Test.DeleteTestDB();
 
