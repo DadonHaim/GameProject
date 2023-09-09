@@ -1,12 +1,13 @@
 // import "./styles/index.css";
 import ReactDOM  from 'react-dom/client';
 import App from './App';
-import { SocketProvider } from './SocketContext';
+import { Provider } from "react-redux";
 
+import myStore from "./store/store"
 
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <SocketProvider>
+  <Provider store={myStore}>
       <App/>
-  </SocketProvider>
+  </Provider>
 );
